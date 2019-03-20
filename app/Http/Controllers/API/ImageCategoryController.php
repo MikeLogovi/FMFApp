@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\ImageCategory;
+use Illuminate\Support\Facades\DB;
 
 class ImageCategoryController extends Controller
 {
@@ -85,8 +86,9 @@ class ImageCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $imageCategory=ImageCategory::findOrFail($id);
-        $imageCategory->delete();
+        $category=ImageCategory::findOrFail($id);
+        DB::table('images')->where('category_id',$category->id)->delete();
+        $category->delete();
         return ['message'=>'Category destroyed'];
     }
 }

@@ -70,6 +70,15 @@
             </router-link>
            
           </li>
+           <li class="nav-item has-treeview">
+            <router-link to="/posts" class="nav-link">
+              <i style='color:#6200EA' class="fas fa-video"></i>
+              <p>
+                BLOG
+              </p>
+            </router-link>
+           
+          </li>
          <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i style='color:#6200EA' class="fas fa-video"></i>

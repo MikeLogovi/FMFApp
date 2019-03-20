@@ -71,10 +71,13 @@
 	   },
 	   methods:{
 		   loadHistories(){
-			   axios.get('api/about').then(({data})=>{
-                    this.items=data.data
+			   axios.get('/about/vue').then(({data})=>{
+                    this.items=data
+                    console.log("about "+this.items)
                      
-			   })
+			   }).catch(()=>{
+           console.log("No data")
+         })
 		   }
 	   }
   }

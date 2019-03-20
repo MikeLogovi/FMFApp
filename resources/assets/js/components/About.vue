@@ -21,7 +21,7 @@
                   <th>Actions</th>
                 </tr>
                 </thead>
-                <tbody id ='tbody' v-for="(item,key) in items" :key="key" >
+                <tbody id ='tbody' v-for="(item,key) in items.data" :key="key" >
                   <tr class='tr_table'>
                    <td><a :href='`/public${item.source}`' class='pop'><img style="width:75px; height:75px" :src="`${item.source}`"/></a></td>
                    <td>{{item.title}}</td>
@@ -42,6 +42,12 @@
                      </td> 
                 </tr> 
                 </tbody>
+                <tfoot>
+                 <pagination :data="items" @pagination-change-page="paginate">
+                    <span slot="prev-nav">&lt;</span>
+                    <span slot="next-nav">&gt;</span>
+                  </pagination>
+                </tfoot>
                
               </table>
               </div>
@@ -74,9 +80,16 @@
           })
       },
       methods:{
+        paginate(page = 1) {
+          axios.get('api/about?page=' + page)
+            .then(response => {
+              this.items = response.data;
+            });
+        },
+        
         loadHistories(){
             axios.get('api/about').then(({data})=>{
-                this.items=data.data
+                this.items=data
             })
 
         },

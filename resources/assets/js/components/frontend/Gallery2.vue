@@ -12,15 +12,9 @@
 					<div class="content">
 						<h1>F M F</h1>
 						<h2>Discover our awesome gallery.</h2>
-						<button class="button big alt" @click='myAction'><span>Official events</span></button>
-						
-						<button class="button big alt" @click='myAction'><span>Social events</span></button>
-						
-						<button class="button big alt" @click='myAction'><span>Our portraits</span></button>
-						
-						<button class="button big alt" @click='myAction'><span>Our Travels</span></button>
-
-					</div>
+						<button class="button big alt" @click='loadImages'><span>Random Events</span></button>
+                        <button v-for="(category,key) in categories" :key="key" class="button big alt" @click='loadSpecificImages(category.id)'><span>{{category.name}}</span></button>
+                	</div>
 					<button  class="button hidden "><span>Let's Go</span></button>
 				</div>
 	</header>
@@ -29,69 +23,29 @@
 
 		<!-- Main -->
 			<div id="main">
-				<div class="inner">
+				<div  class=" inner" v-viewer="{movable: false}">
 					<div class="columns">
 
 						<!-- Column 1 (horizontal, vertical, horizontal, vertical) -->
-							<div class="image fit">
-								<a href="/slide/img/slide1.jpg" class="pop"><img src="/slide/img/slide1.jpg" alt="" /></a>
-							</div>
-							<div class="image fit">
-								<a href="/slide/img/slide4.jpg" class="pop"><img src="/slide/img/slide4.jpg" alt="" /></a>
-							</div>
-							<div class="image fit">
-								<a href="/slide/img/slide5.jpg" class="pop"><img src="/slide/img/slide5.jpg" alt="" /></a>
-							</div>
-							<div class="image fit">
-								<a href="/slide/img/slide4.jpg" class="pop"><img src="/slide/img/slide4.jpg" alt="" /></a>
-							</div>
+							
+							     				<div class="image fit" v-for="(item,key) in items.data"  :key="key" >
+								             <img  :src="item.source">
 
-						<!-- Column 2 (vertical, horizontal, vertical, horizontal) -->
-							<div class="image fit">
-								<a href="/slide/img/slide5.jpg" class="pop"><img src="/slide/img/slide5.jpg" alt="" /></a>
-							</div>
-							<div class="image fit">
-								<a href="/slide/img/slide1.jpg" class="pop"><img src="/slide/img/slide1.jpg" alt="" /></a>
-							</div>
-							<div class="image fit">
-								<a href="/slide/img/slide5.jpg" class="pop"><img src="/slide/img/slide5.jpg" alt="" /></a>
-							</div>
-							<div class="image fit">
-								<a href="/slide/img/slide4.jpg" class="pop"><img src="/slide/img/slide4.jpg" alt="" /></a>
-							</div>
-
-						<!-- Column 3 (horizontal, vertical, horizontal, vertical) -->
-							<div class="image fit">
-								<a href="/slide/img/slide1.jpg" class="pop"><img src="/slide/img/slide1.jpg" alt="" /></a>
-							</div>
-							<div class="image fit">
-								<a href="/slide/img/slide4.jpg" class="pop"><img src="/slide/img/slide4.jpg" alt="" /></a>
-							</div>
-							<div class="image fit">
-								<a href="/slide/img/slide5.jpg" class="pop"><img src="/slide/img/slide5.jpg" alt="" /></a>
-							</div>
-							<div class="image fit">
-								<a href="/slide/img/slide1.jpg" class="pop"><img src="/slide/img/slide1.jpg" alt="" /></a>
-							</div>
-
-						<!-- Column 4 (vertical, horizontal, vertical, horizontal) -->
-							<div class="image fit">
-								<a href="/slide/img/slide4.jpg" class="pop"><img src="/slide/img/slide4.jpg" alt="" /></a>
-							</div>
-							<div class="image fit">
-								<a href="/slide/img/slide5.jpg" class="pop"><img src="/slide/img/slide5.jpg" alt="" /></a>
-							</div>
-							<div class="image fit">
-								<a href="/slide/img/slide1.jpg" class="pop"><img src="/slide/img/slide1.jpg" alt="" /></a>
-							</div>
-							<div class="image fit">
-								<a href="/slide/img/slide2.jpg" class="pop"><img src="/slide/img/slide2.jpg" alt="" /></a>
-							</div>
-
+							                 </div>
+							
+			
 					</div>
 				</div>
 			</div>
-			
+ <button class="btn btn-danger" type="button" @click="show">Show</button>
+<pagination :data="items" @pagination-change-page="getRandomResults" v-if='isRandomButton'>
+	<span slot="prev-nav">&lt; Previous</span>
+	<span slot="next-nav">Next &gt;</span>
+</pagination>
+<pagination :data="items" @pagination-change-page="getSpecificResults" v-else>
+	<span slot="prev-nav">&lt; Previous</span>
+	<span slot="next-nav">Next &gt;</span>
+</pagination>
        <new-footer></new-footer>
 </div>
 </template>
@@ -102,9 +56,21 @@ import NewFooter from './NewFooter'
 
 export default {
     name:'gallery',
-    components:{TopBar,NewFooter},
+	components:{TopBar,NewFooter},
+	data(){
+		return{
+			items:{},
+			isRandomButton:true,
+			categories:{},
+			categoryId:'',
+		}
+	},
     mounted(){
-	  
+	  this.loadImages()
+	  this.loadCategories()
+      Echo.channel('my-channel').listen('ImageEvent',(e)=>{
+		  this.loadImages()
+	  })
       this.$nextTick(()=>{
         
          $('.pop').magnificPopup({
@@ -117,11 +83,45 @@ export default {
 	})
 	},
 	methods:{
+		loadSpecificImages(id){
+           axios.get('/gallery/'+id).then(({data})=>{
+					this.items=data
+					this.categoryId=id
+                    this.isRandomButton=false 
+			   })
+       },
+		loadCategories(){
+          axios.get('api/imageCategory').then(({data})=>{
+                    this.categories=data.data
+                    console.log('My data'+data)
+			   })
+		},
+		getRandomResults(page = 1) {
+			axios.get('/gallery/random?page=' + page)
+				.then(response => {
+					this.items = response.data;
+				});
+		},
+		getSpecificResults(page = 1) {
+			axios.get('/gallery/'+this.categoryId+'?page=' + page)
+				.then(response => {
+					this.items = response.data;
+				});
+		},
+		loadImages(){
+             axios.get('/gallery/random').then(({data})=>{
+				  this.items=data
+			 })
+		},
         myAction(){
 		  this.$nextTick(()=>{
 			 
 		  })
 		},
+		 show () {
+			const viewer = this.$el.querySelector('.images').$viewer
+			viewer.show()
+        },
 		myHeaderAction(){
 			 this.$nextTick(()=>{
 			  if($('.myHeader').hasClass('preview')){

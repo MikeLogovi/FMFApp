@@ -14,6 +14,7 @@
 <event></event>
 <blog></blog>
 <comment></comment>
+<my-blog></my-blog>
 <contact></contact>   
 <new-footer></new-footer> 
 </div>     
@@ -37,8 +38,9 @@
   import Comment from './Comment'
   import Contact from './Contact'
   import NewFooter from './NewFooter'
+  import MyBlog from './MyBlog'
 export default {
-    components:{NavBar,NewFooter,About,Banner,Slider,Contact,Service,Beginning,Portfolio,Event,Comment,Blog},
+    components:{NavBar,NewFooter,About,Banner,Slider,Contact,Service,Beginning,Portfolio,Event,Comment,Blog,MyBlog},
     data(){
       return {
       }

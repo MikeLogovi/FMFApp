@@ -25,7 +25,7 @@
                    <tr class='tr_table'>
                    
                    <td><i :class='`fab fa-${item.social_media}`'></i> {{item.social_media}}</td>
-                   <td>{{item.link}}</td>
+                   <td><a :href="item.link" target="_blank">{{item.link}}</a></td>
                    <td>
                        <div class="col-xs-12">
                            <a href="#" @click.prevent="updateSocialMedia(item)">

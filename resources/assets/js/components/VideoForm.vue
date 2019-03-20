@@ -160,6 +160,7 @@ export default {
               this.form.post('api/video',this.form).then((resolve)=>{
                   this.form.name=''
                   this.form.videoName=''
+                  this.form.reset()
                   this.dialog=false
                   this.$Progress.finish()
                   Swal.fire(
@@ -186,8 +187,10 @@ export default {
                     'Your video has been updated successfully',
                     'success'
                   )
-                  Events.$emit('VideoCreated')}).catch((reject)=>{
-                  this.$Progress.fail()})
+                  Events.$emit('VideoCreated')
+            }).catch((reject)=>{
+                  this.$Progress.fail()
+                })
             
           }
          }

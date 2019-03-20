@@ -1,5 +1,6 @@
 <template>
-<footer id="footer">
+
+<footer id="footer" >
 				
 				<div class="inner">
 					<div class="content">
@@ -17,6 +18,7 @@
 					</div>
 				</div>
 </footer>
+
 </template>
 <script>
 export default{

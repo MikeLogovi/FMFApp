@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Image;
 use App\ImageCategory;
-
+use App\Events\ImageEvent;
 
 class ImageController extends Controller
 {
@@ -41,10 +41,10 @@ class ImageController extends Controller
     public function store(Request $request)
     {   
         $this->validate($request,['name'=>'required|string|min:4|unique:images|max:191','category'=>'required']);
-        $filename=file_upload($request,'/img/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
+        $filename=file_upload($request->file,'/img/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
         $category=ImageCategory::find($request->category);
-        $image=Image::create(['name'=>$request->name,'source'=>'/img/'.$filename,'category_id'=>(int)$request->category,'category_name'=>$category->name]);
-       
+        $image=Image::create(['name'=>$request->name,'source'=>'/img/'.$filename,'category_id'=>$category->id,'category_name'=>$category->name]);
+        event(new ImageEvent);
         return $image;
     }
 
@@ -82,7 +82,7 @@ class ImageController extends Controller
         $image=Image::findOrFail($id);
         
         if(!empty($request->name)){
-            $this->validate($request,['name'=>'string|min:4|max:191']);
+            $this->validate($request,['name'=>'string|min:4|max:191|unique:images']);
             $image->name=$request->name;
         }
         if($request->category){
@@ -92,11 +92,12 @@ class ImageController extends Controller
         
         if($request->file){
             unlink(public_path().$image->source) ;
-            $filename=file_upload($request,'/img/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
+            $filename=file_upload($request->file,'/img/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
             $image->source='/img/'.$filename;
         }
        
         $image->save();
+        event(new ImageEvent);
         return ['message'=>'Image updated'];
     }
 
@@ -111,6 +112,7 @@ class ImageController extends Controller
         $image=Image::findOrFail($id);
         unlink(public_path().$image->source);
         $image->delete();
+        event(new ImageEvent);
         return ['message'=>'Image deleted'];
     }
     

@@ -96,5 +96,6 @@ class SocialiteController extends Controller
         $socialite=Socialite::find($id);
         event(new SocialiteEvent);
         $socialite->delete();
+        return ['message'=>'Social media deleted'];
     }
 }

@@ -75,7 +75,8 @@ class WebsiteController extends Controller
             $website->name=$request->name;
         }
         if(!empty($request->file)){
-            $filename=file_upload($request,'/website/logo/',['jpeg','jpg','png','gif','JPEG','JPG','PNG','GIF']);
+            unlink(public_path().$website->logo);
+            $filename=file_upload($request->file,'/website/logo/',['jpeg','jpg','png','gif','JPEG','JPG','PNG','GIF']);
             $website->logo='/website/logo/'.$filename;
         }
         if(!empty($request->quote)){

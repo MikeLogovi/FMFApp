@@ -14,10 +14,10 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return DB::table('comments')->orderBy('created_at', 'desc')->limit(3)->get(); 
+    public function index(){
+        return Comment::latest()->paginate(10);
     }
+   
 
     /**
      * Show the form for creating a new resource.
@@ -38,7 +38,7 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,['fullName'=>'required|min:4|max:191','avatar'=>'required','comment'=>'required']);
-        $filename=file_upload($request,'/comments/avatars/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
+        $filename=file_upload($request->file,'/comments/avatars/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
         $comment=Comment::create(['fullName'=>$request->fullName,'comment'=>$request->comment,'avatar'=>'/comments/avatars/'.$filename]);
         event(new CommentEvent);
         return $comment;
@@ -80,7 +80,9 @@ class CommentController extends Controller
             $comment->fullName=$request->fullName;
         }
         if(!empty($request->file)){
-            $filename=file_upload($request,'/comments/avatars/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
+            unlink(public_path().$comment->avatar);
+            $filename=file_upload($request->file,'/comments/avatars/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
+            
             $comment->avatar='/comments/avatars/'.$filename;
         }
         if(!empty($request->comment)){
@@ -101,6 +103,11 @@ class CommentController extends Controller
     {
         $comment=Comment::findOrFail($id);
         event(new CommentEvent);
+        unlink(public_path().$comment->avatar);
         $comment->delete();
+    }
+    public function vue()
+    {
+        return DB::table('comments')->orderBy('created_at', 'desc')->limit(3)->get(); 
     }
 }

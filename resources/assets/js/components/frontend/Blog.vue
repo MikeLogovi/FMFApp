@@ -1,40 +1,44 @@
 <template>
- <section class="colorlib-blog" id='blog'>
+ <section class="colorlib-blog" id='blog' v-if="items[0]">
   <container>
     <h2 class="section-heading text-danger h1-responsive font-weight-bold text-center my-5">Recent posts</h2>
     <p class="text-center w-responsive mx-auto mb-5">Our company also try it best to publish many blogs and here are some article we try to publishand show you this evenig.We hope you will appreciate them.</p>
+   <div v-for="(item,key) in items" :key="key">
+     <div v-if="key%2==0">
     <row>
       <div class="col-lg-5">
         <v-hover>
               <v-card slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`"  class="mx-auto" width="344">
-                <v-img :aspect-ratio="16/9" src="/slide/img/slide2.jpg"></v-img>
+                <v-img :aspect-ratio="16/9" :src="item.attached_image"></v-img>
               </v-card>
         </v-hover>
       </div>
       <div class="col-lg-7">
         <h3 class="font-weight-bold mb-3 p-0 red-text">
-          <strong>Post 1</strong>
+          <strong>{{item.title}}</strong>
         </h3>
-        <p>This is the first postThis is the first postThis is the first postThis is the first postThis is the first postThis is the first postThis is the first postThis is the first postThis is the first postThis is the first postThis is the first postThis is the first postThis is the first post</p>
+        <p>{{item.description}}</p>
         <p>by
           <a>
-            <strong>Chuks</strong>
-          </a>, 19/08/2018</p>
+            <strong>{{item.author}}</strong>
+          </a>, {{item.written_at}}</p>
         <btn color="danger" size="md" class="waves-light ">Read more</btn>
       </div>
     </row>
     <hr class="my-5" />
+     </div>
+     <div v-else>
     <row>
       <div class='col-lg-7'>
       
         <h3 class="font-weight-bold mb-3 p-0 red-text">
-          <strong>Post 2</strong>
+          <strong>{{item.title}}</strong>
         </h3>
-        <p>This is the second post.This is the second post.This is the second post.This is the second post.This is the second post.This is the second post.This is the second post.This is the second post.This is the second post.This is the second post.</p>
+        <p>{{item.description}}</p>
         <p>by
           <a>
-            <strong>Mike Logovi</strong>
-          </a>, 14/08/2018</p>
+            <strong>{{item.author}}</strong>
+          </a>, {{item.written_at}}</p>
         <btn color="danger" size="md" class="mb-lg-0 mb-4 waves-light">Read more</btn>
       </div>
       <div class="col-lg-5">
@@ -46,27 +50,8 @@
       </div>
     </row>
     <hr class="my-5" />
-    <row>
-      <div class="col-lg-5">
-       <v-hover>
-              <v-card slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`"  class="mx-auto" width="344">
-                <v-img :aspect-ratio="16/9" src="/slide/img/slide2.jpg"></v-img>
-              </v-card>
-        </v-hover>
-      </div>
-      <div class="col-lg-7">
-      
-        <h3 class="font-weight-bold mb-3 p-0 red-text">
-          <strong>Post 3</strong>
-        </h3>
-        <p>This is the third post.This is the third post.This is the third post.This is the third post.This is the third post.This is the third post.This is the third post.This is the third post.This is the third post.This is the third post.vThis is the third post.This is the third post.This is the third post.</p>
-        <p>by
-          <a>
-            <strong>FMF</strong>
-          </a>, 11/08/2018</p>
-        <btn color="danger" size="md" class="waves-light ">Read more</btn>
-      </div>
-    </row>
+    </div>
+  </div>
   </container>
 </section>
 </template>
@@ -86,7 +71,28 @@ export default {
     mdbIcon,
     
     Btn
-  }
+  },
+   data(){
+           return{
+               items:{
+
+			           }
+           }
+	   },
+	   mounted(){
+			this.loadPosts()
+			Echo.channel('my-channel').listen('PostEvent',(e)=>{
+				 this.loadPosts()
+				 console.log('my website loged')
+			})
+	   },
+	   methods:{
+		   loadPosts(){
+			   axios.get('/post/vue').then(({data})=>{
+                    this.items=data 
+			   })
+		   }
+	   }
 };
 </script>
 <style scoped>

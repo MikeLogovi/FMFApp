@@ -1,5 +1,5 @@
 <template>
-<section id="team">
+<section id="team" v-if="items[0]">
    <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
@@ -40,7 +40,7 @@
 	   },
 	   methods:{
 		   loadComments(){
-			   axios.get('api/comment').then(({data})=>{
+			   axios.get('/comment/vue').then(({data})=>{
                     this.items=data
                     console.log(this.items)
                      

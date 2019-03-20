@@ -28,3 +28,4 @@ Route::resource('socialite','API\SocialiteController');
 Route::resource('slider','API\SliderController');
 Route::resource('footer','API\FooterController');
 Route::resource('website','API\WebsiteController');
+Route::resource('post','API\PostController');

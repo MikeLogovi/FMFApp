@@ -22,7 +22,7 @@
                   <th>Action</th>
                 </tr>
                 </thead>
-                <tbody id ='tbody' v-for="(item,key) in items" :key="key" >
+                <tbody id ='tbody' v-for="(item,key) in items.data" :key="key" >
                    <tr class='tr_table'>
                    <td><a :href='`/public${item.source}`' class='pop'><img style="width:75px; height:75px" :src="`${item.source}`"/></a></td>
                    <td>{{item.name}}</td>
@@ -42,7 +42,12 @@
                      </td> 
                     </tr> 
                 </tbody>
-               
+                <tfoot>
+                   <pagination :data="items" @pagination-change-page="paginate">
+                    <span slot="prev-nav">&lt;</span>
+                    <span slot="next-nav">&gt;</span>
+                  </pagination>
+                </tfoot>
               </table>
               </div>
             </div>
@@ -81,11 +86,17 @@ export default{
      
     },
     methods:{
+         paginate(page = 1) {
+          axios.get('api/image?page=' + page)
+            .then(response => {
+              this.items = response.data;
+            });
+        },
      
         loadImages(){
             axios.get('api/image').then(({data})=>{
-                this.items=data.data
-                console.log(data)
+                this.items=data
+             
             })
         },
         deleteImage(id){

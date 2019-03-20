@@ -29,6 +29,9 @@
           </div>
            <div  class="col-sm-6 pull-right" v-if="navAction && navActioname=='Add a comment'">
             <a :href="navAction" class="btn btn-primary"  v-on:click="activeCommentForm">{{navActioname}}<i :class="navIcon"></i></a>
+          </div>
+          <div  class="col-sm-6 pull-right" v-if="navAction && navActioname=='Add a post'">
+            <a :href="navAction" class="btn btn-primary"  v-on:click="activePostForm">{{navActioname}}<i :class="navIcon"></i></a>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -59,6 +62,9 @@
            },
            activeCommentForm:function(){
               Events.$emit('CommentForm');
+           },
+            activePostForm:function(){
+              Events.$emit('PostForm',true,'Add a post');
            },
     },
 

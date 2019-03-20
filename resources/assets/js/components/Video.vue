@@ -26,13 +26,13 @@
                 <tbody id ='tbody' v-for="(item,key) in items" :key="key" >
                   <tr class='tr_table'>
                    <td> 
-                       <video  id="my-player"
-                        class="video-js vjs-big-play-centered"
+                       <video  
                          controls
                          preload="auto"
      
                          data-setup='{}' width="200" height="75" >
-                            <source :src="item.source">
+                            <source :src="item.source" type="video/mp4">
+                            <source :src="item.source" type="video/ogg">
                         </video> 
                    </td>
                    <td>{{item.name}}</td>

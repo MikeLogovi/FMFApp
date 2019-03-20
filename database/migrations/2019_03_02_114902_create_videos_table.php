@@ -17,7 +17,7 @@ class CreateVideosTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('source');
-            $table->string('description');
+            $table->longText('description');
             $table->integer('category_id')->unsigned();
             $table->string('category_name');
             $table->timestamps();

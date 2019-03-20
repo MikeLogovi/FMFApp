@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Slider;
+use App\Events\SliderEvent;
 class SliderController extends Controller
 {
     /**
@@ -35,8 +36,9 @@ class SliderController extends Controller
      */
     public function store(Request $request)
     {
-        $filename=file_upload($request,'/slide/img/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
+        $filename=file_upload($request->file,'/slide/img/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
         $slider= Slider::create(['name'=>$request->name,'source'=>'/slide/img/'.$filename,'title'=>$request->title,'subtitle'=>$request->subtitle]);
+        event(new SliderEvent);
         return $slider;
     }
 
@@ -73,7 +75,8 @@ class SliderController extends Controller
     {
         $slider=Slider::findOrFail($id);
         if(!empty($request->file)){
-            $filename=file_upload($request,'/slide/img/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
+            unlink(public_path().$slider->source);
+            $filename=file_upload($request->file,'/slide/img/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
 
             $slider->source='/slide/img/'.$filename;
         }
@@ -87,6 +90,7 @@ class SliderController extends Controller
             $slider->subtitle=$request->subtitle;
         }
         $slider->save();
+        event(new SliderEvent);
         return $slider;
     }
 
@@ -99,7 +103,9 @@ class SliderController extends Controller
     public function destroy($id)
     {
         $slider=Slider::findOrFail($id);
+        unlink(public_path().$slider->source);
         $slider->delete();
+        event(new SliderEvent);
         return ['message'=>'Slider deleted'];
     }
     

@@ -19,7 +19,7 @@
                   <th>Action</th>
                 </tr>
                 </thead>
-                <tbody id ='tbody' v-for="(item,key) in items" :key="key" >
+                <tbody id ='tbody' v-for="(item,key) in items.data" :key="key" >
                    <tr class='tr_table'>
                    
                    <td>{{item.name}}</td>
@@ -37,7 +37,12 @@
                      </td> 
                     </tr> 
                 </tbody>
-               
+                <tfoot>
+                   <pagination :data="items" @pagination-change-page="paginate">
+                    <span slot="prev-nav">&lt;</span>
+                    <span slot="next-nav">&gt;</span>
+                  </pagination>
+                </tfoot>
               </table>
               </div>
             </div>
@@ -73,10 +78,16 @@ export default{
        });
     },
     methods:{
+          paginate(page = 1) {
+          axios.get('api/imageCategory?page=' + page)
+            .then(response => {
+              this.items = response.data;
+            });
+        },
         loadImageCategories(){
             axios.get('api/imageCategory').then(({data})=>{
                 console.log(data.data)
-                this.items=data.data
+                this.items=data
             })
         },
         deleteImageCategory(id){

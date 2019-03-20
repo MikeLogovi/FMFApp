@@ -31,6 +31,30 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\SocialiteEvent'=>[
             'App\Listeners\SocialiteEventListener',
         ],
+        'App\Events\PostEvent'=>[
+            'App\Listeners\PostEventListener',
+        ],
+        'App\Events\SliderEvent'=>[
+            'App\Listeners\SliderEventListener',
+        ],
+        'App\Events\ImageEvent'=>[
+            'App\Listeners\ImageEventListener',
+        ],
+        'App\Events\VideoEvent'=>[
+            'App\Listeners\VideoEventListener',
+        ],
+        'App\Events\EventEvent'=>[
+            'App\Listeners\EventEventListener',
+        ],
+        'App\Events\PastEvent'=>[
+            'App\Listeners\PastEventListener',
+        ],
+        'App\Events\TodayEvent'=>[
+            'App\Listeners\TodayEventListener',
+        ],
+        'App\Events\UpcomingEvent'=>[
+            'App\Listeners\UpcomingEventListener',
+        ],
     ];
 
     /**

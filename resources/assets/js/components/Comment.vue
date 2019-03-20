@@ -21,7 +21,7 @@
                   <th>Actions</th>
                 </tr>
                 </thead>
-                <tbody id ='tbody' v-for="(item,key) in items" :key="key" >
+                <tbody id ='tbody' v-for="(item,key) in items.data" :key="key" >
                   <tr class='tr_table'>
                    <td><a :href='`/public${item.avatar}`' class='pop'><img style="width:75px; height:75px" :src="`${item.avatar}`"/></a></td>   
                   <td>{{item.fullName}}</td>
@@ -42,6 +42,12 @@
                      </td> 
                 </tr> 
                 </tbody>
+                 <tfoot>
+                 <pagination :data="items" @pagination-change-page="paginate">
+                    <span slot="prev-nav">&lt;</span>
+                    <span slot="next-nav">&gt;</span>
+                  </pagination>
+                </tfoot>
                
               </table>
               </div>
@@ -74,6 +80,12 @@
           })
       },
       methods:{
+         paginate(page = 1) {
+          axios.get('api/comment?page=' + page)
+            .then(response => {
+              this.items = response.data;
+            });
+        },
         loadComments(){
             axios.get('api/comment').then(({data})=>{
                 this.items=data

@@ -105,8 +105,8 @@ export default {
           disabled:true,
           file_error:false,
           extensions:['jpg','jpeg','png','gif'],
-          eventName:'Choose your file',
-          buttonName:'',
+          eventName:'',
+          buttonName:'Choose your file',
           eventId:null,
           eventCategory:{}
       }
@@ -118,14 +118,18 @@ export default {
                 this.dialogName=optionName
                 this.dialog=value;
                 this.buttonName='Submit'
+                this.eventName=''
                 this.disabled=true
                 
        });
        Events.$on('UpdateEventForm',(value,optionName,event)=>{
                 this.dialogName=optionName
                 this.dialog=value;
-                this.form.name=event.name
-                this.form.fill(event)
+                this.form.description=event.description
+                this.form.organized_by=event.organized_by
+                this.form.organized_at=event.organized_at
+                this.form.organization_place=event.organization_place
+                this.eventName=''
                 this.buttonName='Update'
                 this.eventId=event.id
                 this.disabled=false
@@ -164,12 +168,8 @@ export default {
          if(this.dialogName==="Add an event"){
             this.$Progress.start()
               this.form.post('api/event',this.form).then((resolve)=>{
-                  this.form.title='',
-             this.form.organized_by='',
-             this.form.organized_at='',
-             this.form.organization_place='',
-             this.form.source='',
-             this.form.description=''
+            
+                  this.form.reset();
                   this.dialog=false
                   this.$Progress.finish()
                   Swal.fire(
@@ -184,11 +184,11 @@ export default {
               })
           }
           else if(this.dialogName==="Update event"){
-            console.log('ok')
+            
             this.$Progress.start()
             this.form.put('api/event/'+this.eventId,this.form).then((resolve)=>{
-                  this.form.name=''
-                  this.form.eventName=''
+                  this.form.reset()
+                  this.eventName=''
                   this.dialog=false
                   this.$Progress.finish()
                   Swal.fire(
@@ -196,7 +196,7 @@ export default {
                     'Your event has been updated successfully',
                     'success'
                   )
-                  Events.$emit('eventCreated')}).catch((reject)=>{
+                  Events.$emit('EventCreated')}).catch((reject)=>{
                   this.$Progress.fail()})
             
           }

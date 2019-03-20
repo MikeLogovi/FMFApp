@@ -25,7 +25,7 @@
                      <div class="form-group">
                         <label for="name">Category</label>
                         <select class='form-control' v-model='form.category' :class="{'is-invalid':form.errors.has('category')}" name='category' id='category'>
-                            <option v-for="(item,key) in imgCategory" :key="key" :value="item.id">{{item.name}}</option>
+                            <option v-for="(item,key) in imgCategory" :key="key" :value="item.id" :selected="form.category==item.name">{{item.name}}</option>
                         </select>
                         <has-error :form="form" field="category"></has-error>
                         
@@ -65,15 +65,7 @@
 </template>
 
 <script>
-  function getFileExtension(file){
-        var name=file.split('.')
-        if(name.length===1||(name[0]==''&& name.length==2)){
-          return ''
-        }
-        else{
-          return name[1];
-        }
-  }
+
 export default {
    name:'add-ressource',
    props:['dialogName'],
@@ -101,7 +93,7 @@ export default {
           this.imgCategory=data.data
        })
        Events.$on('ImageForm',(value,optionName)=>{
-                this.form.reset()
+                
                 this.imgName=''
                 this.dialogName=optionName
                 this.dialog=value;
@@ -112,8 +104,8 @@ export default {
        Events.$on('updateImageForm',(value,optionName,image)=>{
                 this.dialogName=optionName
                 this.dialog=value;
-                this.form.name=image.name
-                this.form.fill(image)
+                this.form.category=image.category
+                this.imgName='Choose your file'
                 this.buttonName='Update'
                 this.imgId=image.id
                 this.disabled=false
@@ -124,29 +116,25 @@ export default {
    methods: {
       
       handleFileUpload(el){
-        console.log(el)
-        var extension;
+      this.imgName=el.target.files[0].name
+      this.file= this.imgName
+      var extension=getFileExtension(this.file).toLowerCase()
+       if(this.extensions.indexOf(extension)!=-1){
+          var fileReader = new FileReader()
+          fileReader.readAsDataURL(el.target.files[0])
+          fileReader.onload=(e)=>{
+                  this.form.file=e.target.result
+          }
+          this.disabled=false
+          this.file_error=false
+          
+       }
+    else{
+        this.disabled=true
+        this.file_error=true
+    }
         
-        this.imgName=el.target.files[0].name
-        this.file= this.imgName
-        extension=getFileExtension(this.file).toLowerCase()
-        if(this.extensions.indexOf(extension)!=-1){
-            this.file_error=false
-            this.disabled=false
-            this.form.source=this.imgName
-            var fileReader = new FileReader()
-            fileReader.readAsDataURL(el.target.files[0])
-            fileReader.onload=(e)=>{
-              this.form.file=e.target.result
-            }
-        }
-        else{
-            this.disabled=true
-            this.file_error=true
-            
-        }
-
-      },
+    },
       
       createImage(){
          if(this.dialogName==="Add an image"){
@@ -161,6 +149,7 @@ export default {
                     'Your image has been uploaded successfully',
                     'success'
                   )
+                  this.form.reset()
                   Events.$emit('imageCreated')
               }).catch((reject)=>{
                   this.$Progress.fail()

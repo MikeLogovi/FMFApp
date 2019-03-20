@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\About;
 use App\Events\AboutEvent;
+use Illuminate\Support\Facades\DB;
 class AboutController extends Controller
 {
     /**
@@ -36,8 +37,8 @@ class AboutController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,['file'=>'required','title'=>'required','period'=>'required','history'=>'required']);
-        $filename=file_upload($request,'/about/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
+        $this->validate($request,['file'=>'required','title'=>'required:unique:abouts','period'=>'required','history'=>'required']);
+        $filename=file_upload($request->file,'/about/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
         $about= About::create(['title'=>$request->title,'period'=>$request->period,'source'=>'/about/'.$filename,'history'=>$request->history]);
         event(new AboutEvent);
         return $about;
@@ -76,11 +77,14 @@ class AboutController extends Controller
     {
         $about=About::FindOrFail($id);
         if(!empty($request->file)){
-            $this->validate($request,['file'=>'image']);
-            $filename=file_upload($request,'/about/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
+            
+            unlink(public_path().$about->source);
+            $filename=file_upload($request->file,'/about/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
+            
             $about->source='/about/'.$filename;
         }
         if(!empty($request->title)){
+            $this->validate($request,['title'=>'unique:abouts']);
             $about->title=$request->title;
         }
         if(!empty($request->period)){
@@ -103,8 +107,12 @@ class AboutController extends Controller
     public function destroy($id)
     {
         $about=About::FindOrFail($id);
+        unlink(public_path().$about->source);
         event(new AboutEvent);
         $about->delete();
+    }
+    public function vue(){
+        return DB::table('abouts')->orderBy('period')->limit(3)->get();
     }
 
 }

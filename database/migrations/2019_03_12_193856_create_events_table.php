@@ -20,7 +20,7 @@ class CreateEventsTable extends Migration
             $table->string('organized_by');
             $table->string('organized_at');
             $table->string('organization_place');
-            $table->string('description')->nullable();
+            $table->longText('description')->nullable();
             $table->timestamps();
         });
     }

@@ -10,6 +10,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 window.jQuery=require('jquery')
 window.$=require('jquery')
+import jQuery from 'jquery'
 import Vuetify from 'vuetify'
 import VueRouter from 'vue-router'
 import Swal from 'sweetalert2'
@@ -21,11 +22,62 @@ import 'admin-lte/dist/css/adminlte.min.css'
 import 'video.js/dist/video-js.min.css'
 import 'magnific-popup/dist/jquery.magnific-popup.js'
 import 'magnific-popup/dist/magnific-popup.css'
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'mdbvue/build/css/mdb.css';
 import VueProgressBar from 'vue-progressbar'
-import 'slick-carousel';
+import 'viewerjs/dist/viewer.css'
+import Viewer from 'v-viewer'
 
-
+window.getFileExtension=function(file){
+    var name=file.split('.')
+    if(name.length===1||(name[0]==''&& name.length==2)){
+      return ''
+    }
+    else{
+      return name[1];
+    }
+}
+window.custom_upload=async function(el,ObjectName,ObjectFile,ObjectExtensions,ObjectFormFile){
+    ObjectName=el.target.files[0].name
+    ObjectFile= ObjectName
+    var extension=getFileExtension(ObjectFile).toLowerCase()
+    var result=[];
+    if(ObjectExtensions.indexOf(extension)!=-1){
+       
+        var fileReader = new FileReader()
+        fileReader.readAsDataURL(el.target.files[0])
+        new Promise(()=>{
+            
+            fileReader.onload=(e)=>{
+                result[2]=e.target.result
+            }
+        }).then((result)=>{
+            result[0]=false
+            result[1]=ObjectName
+            console.log(result)
+            return result;
+        })
+        
+        
+            
+            /* if(ObjectExtensions===this.extensionsForImage){
+            this.disabled=false
+            }*/
+           
+      
+                
+     
+        
+        
+    }
+    else{
+        result[0]=true
+        return result
+     }
+    
+}
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -38,6 +90,9 @@ Vue.use(VueProgressBar,{
     failedColor:'red',
     height:'3px'
 })
+
+Vue.use(Viewer)
+Vue.use(BootstrapVue)
 Vue.use(Vuetify)
 Vue.use(VueRouter)
 
@@ -47,6 +102,16 @@ Vue.component(AlertSuccess.name,AlertSuccess)
 Vue.filter('myDate',function(date){
    return moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a");
 })
+Vue.filter('now',function(date){
+   
+    return moment(date).fromNow();
+ })
+Vue.filter('month',function(date){
+    return moment(date).format("MMM");
+ })
+Vue.filter('day',function(date){
+    return moment(date).format("D");
+ })
 Vue.filter('capitalizeIt',function(string){
     return string.charAt(0).toUpperCase() + string.slice(1);
 })
@@ -79,6 +144,7 @@ const routes=[
             {path:'/contact',component:require('./components/Contact.vue')},
             {path:'/about',component:require('./components/About.vue')},
             {path:'/comments',component:require('./components/Comment.vue')},
+            {path:'/posts',component:require('./components/Post.vue')},
             {path:'/settings',component:require('./components/Settings.vue')},
         
     
@@ -96,6 +162,7 @@ const router = new VueRouter({
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('side-nav', require('./components/SideNav.vue'));
 Vue.component('foot',require('./components/Foot.vue'));
+Vue.component('pagination', require('laravel-vue-pagination'));
 const app = new Vue({
     
 mode:history,

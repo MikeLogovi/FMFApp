@@ -9,70 +9,23 @@
         </div>
          <div class='row text-center'>
            <div class='btnRow'>
-             
-                  <button href='#' class='btn red lighten-1'>Official events</button>
-             
-            
-                <button href='#' class='btn red lighten-1'>Social events</button>
-             
-                <button href='#' class=' btn red lighten-1'>Portraits</button>
-            
-                <button href='#' class=' btn red lighten-1 '>Travel</button>
-            
-         </div>
+                <button @click="loadRandomImages" class='btn red lighten-1'>Random events</button>
+                <button @click="loadSpecificImages(category.id)" v-for="(category,key) in categories" :key="key" class='btn red lighten-1'>{{category.name}}</button>
+           </div>
         </div>
-        <div class="row">
-          <div class="col-md-4 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal1">
-              <div class="portfolio-hover">
-                
+        <div>
+        <div class="row" v-viewer="{movable: false}">
+         
+              <div v-for="(item,key) in items" :key="key" class="col-md-4 col-sm-6 portfolio-item" >
+                <a class="pop portfolio-link"  :href="item.source">
+                  <div class="portfolio-hover">
+                    
+                  </div>
+                  <img class="img-fluid" :src="item.source" alt="">
+                </a>
               </div>
-              <img class="img-fluid" src="/slide/img/slide1.jpg" alt="">
-            </a>
-           
-          </div>
-          <div class="col-md-4 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal2">
-              <div class="portfolio-hover">
-                
-              </div>
-              <img class="img-fluid" src="/slide/img/slide2.jpg" alt="">
-            </a>
-            
-          </div>
-          <div class="col-md-4 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal3">
-              <div class="portfolio-hover">
-                
-              </div>
-              <img class="img-fluid" src="/slide/img/slide3.jpg" alt="">
-            </a>
-            
-          </div>
-          <div class="col-md-4 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal4">
-              <div class="portfolio-hover">
-                
-              </div>
-              <img class="img-fluid" src="/slide/img/slide4.jpg" alt="">
-            </a>
-          </div>
-          <div class="col-md-4 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal5">
-              <div class="portfolio-hover">
-                
-              </div>
-              <img class="img-fluid" src="/slide/img/slide1.jpg" alt="">
-            </a>
-          </div>
-          <div class="col-md-4 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal6">
-              <div class="portfolio-hover">
-                
-              </div>
-              <img class="img-fluid" src="/slide/img/slide1.jpg" alt="">
-            </a>
-          </div>
+         
+        </div>
         </div>
          <div class='row text-center'>
            <div class='btnRow'>
@@ -89,14 +42,59 @@
    export default{
       name:'portfolio',
       components:{},
-      data(){
+     data(){
+       
         return{
-
+           items:{},
+           categories:{},
+           isRandomButton:true,
         }
-      },
-      mounted(){
+	   },
+	   mounted(){
+       this.$nextTick(()=>{
+          $('.pop').magnificPopup({
+                    type: 'image',
+                    gallery: {
+                      enabled: true
+                    },
+                    mainClass: 'mfp-with-zoom'
+              });
+          })
+			this.loadRandomImages()
+      this.loadCategories()
+			Echo.channel('my-channel').listen('ImageEvent',(e)=>{
+				 if(this.isRandomButton==true){
+               this.loadRandomImages()
+         }
          
-      }
+			})
+	   },
+	   methods:{
+		   loadRandomImages(){
+         
+			   axios.get('/portfolio/random').then(({data})=>{
+                    this.items=data
+                    this.isRandomButton=true 
+			   })
+         
+		   },
+       loadCategories(){
+          axios.get('api/imageCategory').then(({data})=>{
+                    this.categories=data.data
+                    console.log('My data'+data)
+			   })
+       },
+        show () {
+          const viewer = this.$el.querySelector('.images').$viewer
+          viewer.show()
+        },
+       loadSpecificImages(id){
+           axios.get('/portfolio/'+id).then(({data})=>{
+                    this.items=data
+                    this.isRandomButton=false 
+			   })
+       }
+	   }
    }
 </script>
 <style scoped>

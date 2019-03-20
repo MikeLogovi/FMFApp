@@ -22,12 +22,13 @@
                   <th>Event's place</th>
                    <th>Decription</th>
                   <th>Registred at</th>
-                  <th>Action</th>
+                  <th>State</th>
+                  <th>Actions</th>
                 </tr>
                 </thead>
-                <tbody id ='tbody' v-for="(item,key) in items" :key="key" >
+                <tbody id ='tbody' v-for="(item,key) in items.data" :key="key" >
                   <tr class='tr_table'>
-                   <td><a :href='`/public${item.source}`' class='pop'><img style="width:75px; height:75px" :src="`${item.source}`"/></a></td>
+                   <td><a :href='`/public${item.source}`' class='pop'><img style="width:75px; height:75px" :src="item.source"/></a></td>
                    <td>{{item.title}}</td>
                    <td>{{item.organized_by}}</td>
                    <td>{{item.organized_at|myDate}}</td>
@@ -35,20 +36,31 @@
                     <td>{{item.description}}</td>
                    <td>{{item.created_at|myDate}}</td>
                    <td>
+                        <a href="#" class="btn btn-danger" v-if="item.event_state==0">PASSED</a>
+                           <a href="#" class="btn btn-success" v-else-if="item.event_state==1">IT'S TODAY</a>
+                           <a href="#" class="btn btn-warning" v-else-if="item.event_state==2">UPCOMING</a>
+                   </td>
+                   <td>
                         <div class="col-xs-12">
-                           <a href="#" class="btn btn-success">See</a> 
-                           <a href="#" @click.prevent="updateVideo(item)">
+                          
+
+                           <a href="#" @click.prevent="updateEvent(item)">
                                <i style="color:warning" class='fa fa-edit'></i>
                             </a>
                             / 
-                           <a href="#" @click.prevent="deleteVideo(item.id)">
+                           <a href="#" @click.prevent="deleteEvent(item.id)">
                                <i style="color:red" class='fa fa-trash'></i>
                            </a>
                        </div>
                      </td> 
                 </tr> 
                 </tbody>
-               
+                  <tfoot>
+                 <pagination :data="items" @pagination-change-page="paginate">
+                    <span slot="prev-nav">&lt;</span>
+                    <span slot="next-nav">&gt;</span>
+                  </pagination>
+                </tfoot>
               </table>
               </div>
             </div>
@@ -79,9 +91,15 @@ export default{
         }
     },
     methods:{
+         paginate(page = 1) {
+          axios.get('api/event?page=' + page)
+            .then(response => {
+              this.items = response.data;
+            });
+        },
           loadEvents(){
               axios.get('api/event').then(({data})=>{
-                  this.items=data.data
+                  this.items=data
               })
               Events.$on('EventCreated',()=>{
                   this.loadEvents();
@@ -123,7 +141,7 @@ export default{
 
         },
         updateEvent(myEvent){
-           Events.$emit('UpdateEventForm',true,"Update Event",myEvent)
+           Events.$emit('UpdateEventForm',true,"Update event",myEvent)
         }
     }
 }

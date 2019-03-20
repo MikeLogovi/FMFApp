@@ -1,37 +1,51 @@
 <template>
 <div>
   <top-bar></top-bar>
+  <gallery :images="videos" :index="index" @close="index = null"></gallery>
    <v-layout>
     <v-flex xs12 sm12>
       <v-card>
-        <v-toolbar class='white--text' dark id='toolbar'>
+        <v-toolbar class='white--text' dark light id='toolbar'>
          
           <v-card-title class='video_card_title' offset-xs2>VIDEOS</v-card-title>
           <v-spacer></v-spacer>
-          <v-btn>
-            <v-icon>search</v-icon>
-          </v-btn>
+              <v-toolbar
+              dense
+              dark
+    
+          >
+      <v-text-field
+        hide-details
+        prepend-icon="search"
+        single-line
+        v-model="query"
+        @keyup="search"
+      ></v-text-field>
+
+    </v-toolbar>
         </v-toolbar>
       
        
+        <div style="margin-top:0.75em">
+          <v-flex v-for="(item, key) in items.data" :key="key">
         
-          <v-flex v-for="(item, index) in items" :key="index">
-        
-          <div class="row mList" :id="index">
+          <div class="row mList" :id="key" >
               <div class="col-xs-4 col-xs-offset-2 ">
                    <div class='card__video'>
-                        <video width="200" height="150" controls class='video'>
-                            <source src="/videos/4.mp4" type="video/mp4">
-                            <source src="/videos/4.mp4" type="video/ogg">
-                        </video> 
+                      <video width="200" height="170" controls class='video'>
+                            <source :src="item.source" type="video/mp4">
+                            <source :src="item.source" type="video/ogg">
+                        </video>  
+                
+                       
                   </div>
               </div>
              <div class="col-xs-4 ">
                  <div class='description'>
-                     <span class='title'>{{item.title}}</span><br/>
-                     <p class='heading'>Added at {{now}}</p>
-                     <p class='subtitle'><span v-html="item.subtitle"></span></p>
-                     <a href='/videos/4.mp4' class='popup btn btn-success'>Wath video</a>
+                     <span class='title'>{{item.name}}</span><br/>
+                     <p class='heading'>Added {{item.created_at|now}}</p>
+                     <p class='subtitle'><span v-html="item.description"></span></p>
+                     <button   @click="index = key" class='popup btn btn-success'>Wath video</button>
                  </div>
             </div>
              
@@ -40,7 +54,7 @@
         
         
          </v-flex>
-          
+        </div>  
       </v-card>
     </v-flex>
   </v-layout>
@@ -51,70 +65,55 @@
 <script>
 import TopBar from './TopBar'
 import NewFooter from './NewFooter'
+ import VueGallery from 'vue-gallery';
  export default {
-   components:{TopBar,NewFooter},
+   components:{TopBar,NewFooter, 'gallery': VueGallery},
+
+
     data () {
       return {
+        query:'',
         play:false,
         now:moment().fromNow(),
-        items: [
-
-          {
-            avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-            title: "Chuk's style",
-            subtitle: "<span class='text--primary'>Chuk</span> &mdash; is the boss person I have ever seen!!"
-          },
-           {
-            avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-            title: "Chuk's style",
-            subtitle: "<span class='text--primary'>Chuk</span> &mdash; is the boss person I have ever seen!!"
-          },
-           {
-            avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-            title: "Chuk's style",
-            subtitle: "<span class='text--primary'>Chuk</span> &mdash; is the boss person I have ever seen!!"
-          },
-         
-          {
-            avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-            title: 'Thanks',
-            subtitle: "<span class='text--primary'>Mike Logovi</span> &mdash;Thanks Chuks for his confidence."
-          }
-        ]
+        items: {},
+        videos:['/videos/4.mp4'],
+        index: null
       }
     },
     mounted(){
-        let that=this;
-        this.$nextTick(_=>{
-            console.log('ok');
-            $(document).ready(function() {
-                console.log('coucou');
-                $('.popup').magnificPopup({
-                    type:'iframe',
-            
-                    showCloseBtn:false,
-                    removalDelay: 300,
-                   
-
-                    
-                });
-                 console.log('cou');
-            });
-
-            /* $('.mList').on('click',function(e){
-                let id=this.id;
-                if(that.play==false){
-                   $('.video')[id].play();
-                   
-                }
-                else{
-                   $('.video')[id].pause(); 
-                }
-                that.play=!that.play;
-             });*/
-        });
+        	this.loadVideos()
+          Echo.channel('my-channel').listen('VideoEvent',(e)=>{
+            this.loadVideos()
+            console.log('my website loged')
+          })
         
+    },
+    methods:{
+         loadVideos(){
+            axios.get('api/video').then(({data})=>{
+                       
+                        this.items=data 
+            })
+         },
+          openModal () {
+            console.log(this.$refs.modal)
+          },
+          search(){
+            setTimeout(()=>{
+                 axios.get('/videos/search?query='+this.query).then(({data})=>{
+                    
+                     this.items=data
+                     
+                  })
+            },500)
+             
+          }
+                 
+          
+            
+          
     }
+   
   }
 </script>
 

@@ -107,7 +107,10 @@ export default{
         Events.$on('AboutUpdateForm',(item)=>{
             this.dialogName='Update history'
             this.buttonName='Update'
-            this.form.fill(item)
+            this.form.period=item.period
+            this.form.source=item.source
+            this.form.history=item.history
+            this.imgName=''
             this.dialog=true
             this.myItem=item
             this.disabled=false
@@ -145,6 +148,7 @@ export default{
                         })
                         this.$Progress.finish()
                         Events.$emit('HistoryCreated')
+                        this.form.reset()
                         this.dialog=false
 
                 }).catch(()=>{
