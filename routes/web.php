@@ -31,3 +31,6 @@ Route::get('/videos/search','API\VideoController@search');
 Route::get('/about/vue','API\AboutController@vue');
 Route::get('/comment/vue','API\CommentController@vue');
 Route::get('/post/vue','API\PostController@vue');
+Route::get('/slider/vue','API\SliderController@vue');
+Route::get('/socialite/vue','API\SocialiteController@vue');
+Route::get('/imageCategory/vue','API\ImageCategoryController@vue');

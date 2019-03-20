@@ -21,7 +21,7 @@
                   <th>Action</th>
                 </tr>
                 </thead>
-                <tbody id ='tbody' v-for="(item,key) in items" :key="key" >
+                <tbody id ='tbody' v-for="(item,key) in items.data" :key="key" >
                    <tr class='tr_table'>
                    
                    <td><i :class='`fab fa-${item.social_media}`'></i> {{item.social_media}}</td>
@@ -39,7 +39,12 @@
                      </td> 
                     </tr> 
                 </tbody>
-               
+                  <tfoot>
+                 <pagination :data="items" @pagination-change-page="paginate">
+                    <span slot="prev-nav">&lt;</span>
+                    <span slot="next-nav">&gt;</span>
+                  </pagination>
+                </tfoot>
               </table>
               </div>
             
@@ -71,9 +76,15 @@ export default{
        })
    },
    methods:{
+         paginate(page = 1) {
+          axios.get('api/socialite?page=' + page)
+            .then(response => {
+              this.items = response.data;
+            });
+        },
        loadSocialMedia(){
             axios.get('api/socialite').then(({data})=>{
-             this.items=data.data
+             this.items=data
             })
        },
        addSocialMedia(){

@@ -145,6 +145,8 @@ const routes=[
             {path:'/about',component:require('./components/About.vue')},
             {path:'/comments',component:require('./components/Comment.vue')},
             {path:'/posts',component:require('./components/Post.vue')},
+            {path:'/post/:id',component:require('./components/frontend/MyBlog.vue')},
+
             {path:'/settings',component:require('./components/Settings.vue')},
         
     

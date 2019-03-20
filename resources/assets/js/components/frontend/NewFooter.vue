@@ -8,7 +8,7 @@
 						<p>{{footer.description}}
                        </p>
 					</div>
-					<div class="copyright">
+					<div class="copyright" v-if="socialites[0]">
 						<h3>Follow me</h3>
 						<ul class="icons">
 							<li  v-for="(socialite,key) in socialites" :key="key"><a target="_blank" :href="socialite.link" class="icon"><i :class='`fab fa-${socialite.social_media}`' ></i></a></li>
@@ -33,8 +33,7 @@ export default{
        }
         
     },
-	
-       
+    
  mounted(){
 	        this.loadSocialMedia()
             this.loadWebsiteParams()
@@ -61,8 +60,8 @@ export default{
 			   })
 		   },
 		   loadSocialMedia(){
-            axios.get('api/socialite').then(({data})=>{
-             this.socialites=data.data
+            axios.get('/socialite/vue').then(({data})=>{
+             this.socialites=data
             })
        },
 	   }

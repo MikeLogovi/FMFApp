@@ -8,7 +8,9 @@
           <div class="card">
             <div class="card-header">
               <h1 class="card-title" style="color:white">VIDEOS</h1>
+               
             </div>
+            
             <!-- /.card-header -->
          <div class="card-body ">
              <div class="table-responsive">
@@ -20,10 +22,11 @@
                   <th>Category</th>
                   <th>Description</th>
                   <th>Created at</th>
+                  <th>Link</th>
                   <th>Action</th>
                 </tr>
                 </thead>
-                <tbody id ='tbody' v-for="(item,key) in items" :key="key" >
+                <tbody id ='tbody' v-for="(item,key) in items.data" :key="key" >
                   <tr class='tr_table'>
                    <td> 
                        <video  
@@ -31,14 +34,15 @@
                          preload="auto"
      
                          data-setup='{}' width="200" height="75" >
-                            <source :src="item.source" type="video/mp4">
-                            <source :src="item.source" type="video/ogg">
+                            <source :src="sourceOrLink(item)" type="video/mp4">
+                            <source :src="sourceOrLink(item)" type="video/ogg">
                         </video> 
                    </td>
                    <td>{{item.name}}</td>
                    <td>{{item.category_name}}</td>
                    <td>{{item.description}}</td>
                    <td>{{item.created_at}}</td>
+                   <td><a :href="item.link" target="_blank" v-if="item.link">{{item.link}}</a></td>
                    <td>
                         <div class="col-xs-12">
                            <a href="#" class="btn btn-success">See</a> 
@@ -53,7 +57,12 @@
                      </td> 
                 </tr> 
                 </tbody>
-               
+                <tfoot>
+                 <pagination :data="items" @pagination-change-page="paginate">
+                    <span slot="prev-nav">&lt;</span>
+                    <span slot="next-nav">&gt;</span>
+                  </pagination>
+                </tfoot>
               </table>
               </div>
             </div>
@@ -83,10 +92,25 @@ export default{
              
         }
     },
+   
     methods:{
+        sourceOrLink(item){
+            if(item.link!=null){
+                return item.link
+            }
+            else{
+                return item.source
+            }
+        },
+        paginate(page = 1) {
+          axios.get('api/video?page=' + page)
+            .then(response => {
+              this.items = response.data;
+            });
+        },
           loadVideos(){
               axios.get('api/video').then(({data})=>{
-                  this.items=data.data
+                  this.items=data
               }) 
               Events.$on('VideoCreated',()=>{
                   this.loadVideos();

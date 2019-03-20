@@ -45,7 +45,13 @@
                       </div>
                       
                     </div>
+                    
                      <p class='text-danger' v-if='file_error'>Your file must have an mp4 extension</p>
+                     <div class="form-group" v-if="buttonName=='Submit'||form.link">
+                        <label for="link">Your link</label>
+                        <input v-model='form.link' :class="{'is-invalid':form.errors.has('link')}" type="text" class="form-control" id="link" name="link" placeholder="This field is optional but if you have a link for your video,put it and don't upload again a file" @keyup='setButton'>
+                        <has-error :form="form" field="link"></has-error>
+                    </div>
                   </div>
             
                 </div>
@@ -89,6 +95,7 @@ export default {
             name:'',
             file:'',
             source:'',
+            link:'',
             category:'',
             description:''
           }),
@@ -118,8 +125,12 @@ export default {
        Events.$on('UpdateVideoForm',(value,optionName,video)=>{
                 this.dialogName=optionName
                 this.dialog=value;
-                this.form.name=video.name
-                this.form.fill(video)
+                this.form.name=''
+                this.form.category=video.category
+                this.form.description=video.description
+                if(video.link){
+                   this.form.link=video.link
+                }
                 this.buttonName='Update'
                 this.videoId=video.id
                 this.disabled=false
@@ -128,7 +139,15 @@ export default {
        
    },
    methods: {
-      
+      setButton(){
+         var chaine=this.form.link.replace(/ /g, "");
+         if(chaine && this.disabled==true){
+           this.disabled=false
+         }
+         else if(!chaine&&this.disabled==false){
+           this.disabled=true
+         }
+      },
       handleFileUpload(el){
         console.log(el)
         var extension;

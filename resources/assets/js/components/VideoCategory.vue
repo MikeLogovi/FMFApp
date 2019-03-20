@@ -37,7 +37,12 @@
                      </td> 
                     </tr> 
                 </tbody>
-               
+                <tfoot>
+                 <pagination :data="items" @pagination-change-page="paginate">
+                    <span slot="prev-nav">&lt;</span>
+                    <span slot="next-nav">&gt;</span>
+                 </pagination>
+                </tfoot>
               </table>
               </div>
             </div>
@@ -73,6 +78,12 @@ export default{
        });
     },
     methods:{
+         paginate(page = 1) {
+          axios.get('api/videoCategory?page=' + page)
+            .then(response => {
+              this.items = response.data;
+            });
+        },
         loadVideoCategories(){
             axios.get('api/videoCategory').then(({data})=>{
                 console.log(data.data)

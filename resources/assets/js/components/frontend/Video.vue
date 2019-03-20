@@ -3,11 +3,11 @@
   <top-bar></top-bar>
   <gallery :images="videos" :index="index" @close="index = null"></gallery>
    <v-layout>
-    <v-flex xs12 sm12>
+    <v-flex lg12 sm12>
       <v-card>
         <v-toolbar class='white--text' dark light id='toolbar'>
          
-          <v-card-title class='video_card_title' offset-xs2>VIDEOS</v-card-title>
+          <v-card-title class='video_card_title' offset-lg2>VIDEOS</v-card-title>
           <v-spacer></v-spacer>
               <v-toolbar
               dense
@@ -30,7 +30,7 @@
           <v-flex v-for="(item, key) in items.data" :key="key">
         
           <div class="row mList" :id="key" >
-              <div class="col-xs-4 col-xs-offset-2 ">
+              <div class="col-lg-4 col-lg-offset-2 ">
                    <div class='card__video'>
                       <video width="200" height="170" controls class='video'>
                             <source :src="item.source" type="video/mp4">
@@ -40,7 +40,7 @@
                        
                   </div>
               </div>
-             <div class="col-xs-4 ">
+             <div class="col-lg-4 ">
                  <div class='description'>
                      <span class='title'>{{item.name}}</span><br/>
                      <p class='heading'>Added {{item.created_at|now}}</p>
@@ -54,6 +54,12 @@
         
         
          </v-flex>
+           
+                 <pagination :data="items" @pagination-change-page="paginate">
+                    <span slot="prev-nav">&lt;</span>
+                    <span slot="next-nav">&gt;</span>
+                  </pagination>
+               
         </div>  
       </v-card>
     </v-flex>
@@ -89,6 +95,12 @@ import NewFooter from './NewFooter'
         
     },
     methods:{
+        paginate(page = 1) {
+  axios.get('api/video?page=' + page)
+            .then(response => {
+              this.items = response.data;
+            });
+        },
          loadVideos(){
             axios.get('api/video').then(({data})=>{
                        

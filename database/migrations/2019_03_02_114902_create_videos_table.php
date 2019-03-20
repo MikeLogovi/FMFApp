@@ -20,6 +20,7 @@ class CreateVideosTable extends Migration
             $table->longText('description');
             $table->integer('category_id')->unsigned();
             $table->string('category_name');
+            
             $table->timestamps();
         });
     }

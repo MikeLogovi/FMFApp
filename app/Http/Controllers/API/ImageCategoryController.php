@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\ImageCategory;
+use App\Image;
 use Illuminate\Support\Facades\DB;
 
 class ImageCategoryController extends Controller
@@ -18,7 +19,9 @@ class ImageCategoryController extends Controller
     {
         return ImageCategory::latest()->paginate(10);
     }
-
+    public function vue(){
+        return DB::table('image_categories')->get();
+    }
     /**
      * Show the form for creating a new resource.
      *

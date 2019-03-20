@@ -2,59 +2,60 @@
   <section id="events" v-if="TodayHaveData||PastHaveData||UpcomingHaveData">
       <div class="container">
         <div class="row">
-          <div class="col-lg-12 text-center">
-            <h2 class="text-uppercase text-danger h1-responsive font-weight-bold text-center my-5">Events</h2>
-          </div>
-        </div>
+                    <div class="col-lg-12 text-center">
+                      <h2 class="text-uppercase text-danger h1-responsive font-weight-bold text-center my-5">Events</h2>
+                    </div>
+       </div>
         <div v-if='PastHaveData'>
-         <div class="col-lg-12 text-center">
-            <h3 class="section-heading text-uppercase text-danger text-muted event__time">Past Events</h3>
-          </div>
-        </div>
-        <div class="row text-center">
-          <div class="col-md-4" v-for="(past,key) in pasts.data" :key="key">
-                  <v-hover>
-                  <v-card
-                      slot-scope="{ hover }"
-                    :class="`elevation-${hover ? 12 : 2}`"
-                    class="mx-auto event__card"
-                  >
-                      <v-img
-                        :src="past.source"
-                        height="200px"
-                      >
-                      </v-img>
+                <div class="col-lg-12 text-center">
+                    <h3 class="section-heading text-uppercase text-danger text-muted event__time">Past Events</h3>
+                </div>
+        
+        <div class="row">
+                      <div class="col-lg-4" v-for="(past,key) in pasts.data" :key="key">
+                              <v-hover>
+                              <v-card
+                                  slot-scope="{ hover }"
+                                :class="`elevation-${hover ? 12 : 2}`"
+                                class="mx-auto event__card"
+                                width="344"
+                              >
+                                  <v-img
+                                    :src="past.source"
+                                    height="200px"
+                                  >
+                                  </v-img>
 
-                      <v-card-title primary-title>
-                        <div class="event-entry">
-                            <div class="desc">
-                              <p class="meta"><span class="day">{{past.organized_at|day}}</span><span class="month">{{past.organized_at|month}}</span></p>
-                              <p class="organizer"><span>Organized by:</span> <span><strong>{{past.organized_by}}</strong></span></p>
-                              <h2><a href="event.html">{{past.title}}</a></h2>
-                            </div>
-                            <div class="location">
-                              <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
-                              <p>{{past.organization_place}}</p>
-                            </div>
-                          </div>
-                      </v-card-title>
+                                  <v-card-title primary-title>
+                                    <div class="event-entry">
+                                        <div class="desc">
+                                          <p class="meta"><span class="day">{{past.organized_at|day}}</span><span class="month">{{past.organized_at|month}}</span></p>
+                                          <p class="organizer"><span>Organized by:</span> <span><strong>{{past.organized_by}}</strong></span></p>
+                                          <h2><a href="event.html">{{past.title}}</a></h2>
+                                        </div>
+                                        <div class="location">
+                                          <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
+                                          <p>{{past.organization_place}}</p>
+                                        </div>
+                                      </div>
+                                  </v-card-title>
 
-                      <v-card-actions>
-                        <v-btn flat color="purple"  @click="past.show = !past.show">Read about</v-btn>
-                        <v-spacer></v-spacer>
-                        <v-btn icon @click="past.show = !past.show">
-                          <v-icon>{{ past.show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-                        </v-btn>
-                      </v-card-actions>
+                                  <v-card-actions>
+                                    <v-btn flat color="purple"  @click="past.show = !past.show">Read about</v-btn>
+                                    <v-spacer></v-spacer>
+                                    <v-btn icon @click="past.show = !past.show">
+                                      <v-icon>{{ past.show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+                                    </v-btn>
+                                  </v-card-actions>
 
-                      <v-slide-y-transition>
-                        <v-card-text v-show="past.show">
-                        {{past.description}}
-                        </v-card-text>
-                      </v-slide-y-transition>
-                    </v-card>
-                  </v-hover>
-          </div>
+                                  <v-slide-y-transition>
+                                    <v-card-text v-show="past.show">
+                                    {{past.description}}
+                                    </v-card-text>
+                                  </v-slide-y-transition>
+                                </v-card>
+                              </v-hover>
+                      </div>
         </div>
         <pagination :data="pasts" @pagination-change-page="getPastResults">
             <span slot="prev-nav">&lt; Previous</span>
@@ -62,19 +63,20 @@
          </pagination>
        <hr/>
        </div>
+       
        <div v-if='TodayHaveData'>
-       <div class="col-lg-12 text-center event__time" style='margin-top:3em;margin-bottom:3em' >
-            <h3 class="section-heading text-uppercase text-danger text-muted event__time">Today's Events</h3>
-        </div>
+          <div class="col-lg-12 text-center event__time" style='margin-top:3em;margin-bottom:3em' >
+                <h3 class="section-heading text-uppercase text-danger text-muted event__time">Today's Events</h3>
+            </div>
         
         <div class="row text-center">
-          <div class="col-md-4" v-for="(today,key) in todays.data" :key="key">
+          <div class="col-lg-4" v-for="(today,key) in todays.data" :key="key">
               <v-hover>    
                 <v-card
                 slot-scope="{ hover }"
                   :class="`elevation-${hover ? 12 : 2}`"
                   class="event__card mx-auto"
-                  
+                   width="344"
                 >
                     <v-img
                       :src="today.source"
@@ -122,19 +124,20 @@
         
         <hr/>
       </div>
+   
       <div v-if='UpcomingHaveData'>
-       <div class="col-lg-12 text-center event__time" style='margin-top:3em;margin-bottom:3em'>
-            <h3 class="section-heading text-uppercase text-danger text-muted event__time">Upcoming Events</h3>
-        </div>
+              <div class="col-lg-12 text-center event__time" style='margin-top:3em;margin-bottom:3em'>
+                    <h3 class="section-heading text-uppercase text-danger text-muted event__time">Upcoming Events</h3>
+                </div>
         
-        <div class="row text-center">
-          <div class="col-md-4" v-for="(upcoming,key) in upcomings.data" :key="key">
+        <div class="row">
+          <div class="col-lg-4" v-for="(upcoming,key) in upcomings.data" :key="key">
               <v-hover>    
                 <v-card
                 slot-scope="{ hover }"
                   :class="`elevation-${hover ? 12 : 2}`"
                   class="event__card mx-auto"
-                  
+                   width="344"
                 >
                     <v-img
                       :src="upcoming.source"
@@ -180,7 +183,8 @@
             <span slot="next-nav">Next &gt;</span>
       </pagination>
        <hr/>
-      </div>
+  </div>
+</div>
     </section>
 </template>
 <script>
@@ -323,12 +327,10 @@ section {
 .event__time{
     text-decoration: underline;
 }
-.event__card{
-    margin-bottom:1.5em;
-}
+
 #events{
     background-color:white;
-    padding:5px 70px;
+   
 }
 section h2.section-heading {
   font-size: 40px;

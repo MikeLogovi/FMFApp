@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Socialite;
 use App\Events\SocialiteEvent;
+use Illuminate\Support\Facades\DB;
 class SocialiteController extends Controller
 {
     /**
@@ -97,5 +98,8 @@ class SocialiteController extends Controller
         event(new SocialiteEvent);
         $socialite->delete();
         return ['message'=>'Social media deleted'];
+    }
+    public function vue(){
+       return DB::table('socialites')->get();
     }
 }

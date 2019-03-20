@@ -71,16 +71,8 @@ export default {
       Echo.channel('my-channel').listen('ImageEvent',(e)=>{
 		  this.loadImages()
 	  })
-      this.$nextTick(()=>{
-        
-         $('.pop').magnificPopup({
-            type: 'image',
-             gallery: {
-              enabled: true
-            },
-             mainClass: 'mfp-with-zoom'
-      });
-	})
+     
+	
 	},
 	methods:{
 		loadSpecificImages(id){
@@ -91,9 +83,9 @@ export default {
 			   })
        },
 		loadCategories(){
-          axios.get('api/imageCategory').then(({data})=>{
-                    this.categories=data.data
-                    console.log('My data'+data)
+          axios.get('/imageCategory/vue').then(({data})=>{
+                    this.categories=data
+                    
 			   })
 		},
 		getRandomResults(page = 1) {

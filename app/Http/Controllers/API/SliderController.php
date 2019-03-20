@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Slider;
 use App\Events\SliderEvent;
+use Illuminate\Support\Facades\DB;
 class SliderController extends Controller
 {
     /**
@@ -13,6 +14,7 @@ class SliderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
         return Slider::latest()->paginate(10);
@@ -107,6 +109,10 @@ class SliderController extends Controller
         $slider->delete();
         event(new SliderEvent);
         return ['message'=>'Slider deleted'];
+    }
+    public function vue()
+    {
+        return DB::table('sliders')->get();
     }
     
 }

@@ -22,7 +22,7 @@
           <a>
             <strong>{{item.author}}</strong>
           </a>, {{item.written_at}}</p>
-        <btn color="danger" size="md" class="waves-light ">Read more</btn>
+        <router-link :to="`/post/${item.id}`"><btn color="danger" size="md" class="waves-light ">Read more</btn></router-link>
       </div>
     </row>
     <hr class="my-5" />
@@ -83,7 +83,7 @@ export default {
 			this.loadPosts()
 			Echo.channel('my-channel').listen('PostEvent',(e)=>{
 				 this.loadPosts()
-				 console.log('my website loged')
+				
 			})
 	   },
 	   methods:{

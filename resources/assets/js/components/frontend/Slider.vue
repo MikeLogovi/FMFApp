@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div v-if="items[0]">
     <b-carousel
       id="carousel1"
       style="text-shadow: 1px 1px 2px #333; margin-top:0"
@@ -41,13 +41,13 @@
 			this.loadSliders()
 			Echo.channel('my-channel').listen('SliderEvent',(e)=>{
 				 this.loadSliders()
-				 console.log('my website loged')
+				 
 			})
 	   },
 	   methods:{
 		   loadSliders(){
-			   axios.get('api/slider').then(({data})=>{
-                    this.items=data.data 
+			   axios.get('/slider/vue').then(({data})=>{
+                    this.items=data
 			   })
 		   },
         onSlideStart(slide) {
