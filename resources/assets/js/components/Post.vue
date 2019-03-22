@@ -1,6 +1,6 @@
 <template>
 <div>
-    <navigation nav-title="Blog" nav-action="#" nav-actioname="Add a post" nav-icon="fas fa-paste"></navigation>
+    <navigation nav-title="Blog" nav-action="#" nav-actioname="Add a post" nav-icon="far fa-newspaper"></navigation>
     <post-form :dialog-name="dialogName"></post-form>
      
       <div class="row">

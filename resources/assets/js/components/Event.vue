@@ -1,6 +1,6 @@
 <template>
 <div>
-    <navigation nav-title="Events" nav-action="#" nav-actioname="Add an event" nav-icon="fas fa-video"></navigation>
+    <navigation nav-title="Events" nav-action="#" nav-actioname="Add an event" nav-icon="far fa-calendar-alt"></navigation>
     <event-form :dialog-name="dialogName"></event-form>
      
       <div class="row">

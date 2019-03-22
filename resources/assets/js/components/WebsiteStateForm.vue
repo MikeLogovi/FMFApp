@@ -124,7 +124,7 @@ export default{
                 title: 'Website state updated successfully'
                 })
                 this.$Progress.finish()
-                 Events.$emit('WebsiteStateUpdated')
+                Events.$emit('WebsiteStateUpdated')
                 this.dialog=false
                 this.form.nam
 

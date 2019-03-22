@@ -7,7 +7,7 @@
        
         <v-card-title primary-title>
           <div>
-            <h1 class="mb-0 text-primary">SETTINGS</h1>
+            <h2 class="mb-0 text-primary">SETTINGS  <i class="fas fa-cog"></i></h2>
            </div>
         </v-card-title>
         <!--WEBSITE STATE-->

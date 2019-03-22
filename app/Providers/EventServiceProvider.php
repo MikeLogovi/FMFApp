@@ -55,6 +55,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UpcomingEvent'=>[
             'App\Listeners\UpcomingEventListener',
         ],
+        'App\Events\UserEvent'=>[
+            'App\Listeners\UserEventListener',
+        ],
     ];
 
     /**

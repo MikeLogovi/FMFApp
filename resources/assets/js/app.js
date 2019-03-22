@@ -29,7 +29,7 @@ import 'mdbvue/build/css/mdb.css';
 import VueProgressBar from 'vue-progressbar'
 import 'viewerjs/dist/viewer.css'
 import Viewer from 'v-viewer'
-
+import {store} from './store/store'
 window.getFileExtension=function(file){
     var name=file.split('.')
     if(name.length===1||(name[0]==''&& name.length==2)){
@@ -88,7 +88,7 @@ window.Toast=Toast;
 Vue.use(VueProgressBar,{
     color:'rgb(149,255,199)',
     failedColor:'red',
-    height:'3px'
+    height:'500px'
 })
 
 Vue.use(Viewer)
@@ -124,32 +124,30 @@ window.Form=Form
 window.Events=new Vue();
 window.Swal=Swal
 const routes=[
-    {path:'/',component:require('./components/frontend/HomePage.vue')},
+   
+    {path:'/welcome',component:require('./components/frontend/HomePage.vue'),alias:'/'},
     {path: '/galleries',component:require('./components/frontend/Gallery2.vue')},
     {path: '/videos',component:require('./components/frontend/Video.vue')},
-    {path: '/connexion',component:require('./components/frontend/HomePage.vue')},
-     
-    {
-        path: '/administration', component:require('./components/Administration.vue'),
+    {path: '/login',component:require('./components/frontend/Login.vue')},
+    {path:'/post/:id',component:require('./components/frontend/MyBlog.vue')},
+     //Administration   
+    {path: '/administration', component:require('./components/Administration.vue'),
+     children:[
+        {path:'/',component:require('./components/Dashboard.vue'),alias:'/dashboard'},
+        {path:'/settings',component:require('./components/Settings.vue')},
+        {path:'/gallery',component:require('./components/Gallery.vue')},
+        {path:'/images_categories',component:require('./components/ImageCategory.vue')},
+        {path:'/video',component:require('./components/Video.vue')},
+        {path:'/videos_categories',component:require('./components/VideoCategory.vue')},
+        {path:'/portfolio',component:require('./components/Portfolio.vue')},
+        {path:'/profile',component:require('./components/Profile.vue')},
+        {path:'/events',component:require('./components/Event.vue')},
+        {path:'/contact',component:require('./components/Contact.vue')},
+        {path:'/about',component:require('./components/About.vue')},
+        {path:'/comments',component:require('./components/Comment.vue')},
+        {path:'/posts',component:require('./components/Post.vue')},
+     ]
     },
-            {path:'/dashboard',component:require('./components/Dashboard.vue')},
-            {path:'/gallery',component:require('./components/Gallery.vue')},
-            {path:'/images_categories',component:require('./components/ImageCategory.vue')},
-            {path:'/video',component:require('./components/Video.vue')},
-            {path:'/videos_categories',component:require('./components/VideoCategory.vue')},
-            {path:'/portfolio',component:require('./components/Portfolio.vue')},
-            {path:'/portfolio/1',component:require('./components/ExampleComponent.vue')},
-           // {path:'/contact',component:require('./components/Contact.vue')},
-            {path:'/events',component:require('./components/Event.vue')},
-            {path:'/contact',component:require('./components/Contact.vue')},
-            {path:'/about',component:require('./components/About.vue')},
-            {path:'/comments',component:require('./components/Comment.vue')},
-            {path:'/posts',component:require('./components/Post.vue')},
-            {path:'/post/:id',component:require('./components/frontend/MyBlog.vue')},
-
-            {path:'/settings',component:require('./components/Settings.vue')},
-        
-    
     
 
 ];
@@ -166,8 +164,8 @@ Vue.component('side-nav', require('./components/SideNav.vue'));
 Vue.component('foot',require('./components/Foot.vue'));
 Vue.component('pagination', require('laravel-vue-pagination'));
 const app = new Vue({
-    
-mode:history,
+    store:store,  
+    mode:history,
     el: '#app',
     router
 });

@@ -1,13 +1,12 @@
 <template>
     <div>
-    <navigation nav-title="Contact" nav-action="#"></navigation>
      <v-layout>
     <v-flex xs12>
       <v-card>
        
         <v-card-title primary-title>
           <div>
-            <h3 class="headline mb-0 text-primary">CONTACT</h3>
+            <h3 class="headline mb-0 text-primary">CONTACT <i class="fas fa-id-card"></i></h3>
            </div>
         </v-card-title>
         <form role="form" @submit.prevent="updateContact">

@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::resource('user','API\UserController');
 Route::resource('image','API\ImageController');
 Route::resource('imageCategory','API\ImageCategoryController');
 Route::resource('video','API\VideoController');
