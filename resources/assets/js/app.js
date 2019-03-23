@@ -10,6 +10,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 window.jQuery=require('jquery')
 window.$=require('jquery')
+
 import jQuery from 'jquery'
 import Vuetify from 'vuetify'
 import VueRouter from 'vue-router'
@@ -131,22 +132,23 @@ const routes=[
     {path: '/login',component:require('./components/frontend/Login.vue')},
     {path:'/post/:id',component:require('./components/frontend/MyBlog.vue')},
      //Administration   
-    {path: '/administration', component:require('./components/Administration.vue'),
+    {path: '/administration', component:require('./components/Administration.vue'),meta:{requiresAuth:true},
      children:[
-        {path:'/',component:require('./components/Dashboard.vue'),alias:'/dashboard'},
-        {path:'/settings',component:require('./components/Settings.vue')},
-        {path:'/gallery',component:require('./components/Gallery.vue')},
-        {path:'/images_categories',component:require('./components/ImageCategory.vue')},
-        {path:'/video',component:require('./components/Video.vue')},
-        {path:'/videos_categories',component:require('./components/VideoCategory.vue')},
-        {path:'/portfolio',component:require('./components/Portfolio.vue')},
-        {path:'/profile',component:require('./components/Profile.vue')},
-        {path:'/events',component:require('./components/Event.vue')},
-        {path:'/contact',component:require('./components/Contact.vue')},
-        {path:'/about',component:require('./components/About.vue')},
-        {path:'/comments',component:require('./components/Comment.vue')},
-        {path:'/posts',component:require('./components/Post.vue')},
+        {path:'/',component:require('./components/Dashboard.vue'),alias:'/dashboard', meta:{requiresAuth:true}},
+        {path:'/settings',component:require('./components/Settings.vue'),meta:{requiresAuth:true}},
+        {path:'/gallery',component:require('./components/Gallery.vue'),meta:{requiresAuth:true}},
+        {path:'/images_categories',component:require('./components/ImageCategory.vue'),meta:{requiresAuth:true}},
+        {path:'/video',component:require('./components/Video.vue'),meta:{requiresAuth:true}},
+        {path:'/videos_categories',component:require('./components/VideoCategory.vue'),meta:{requiresAuth:true}},
+        {path:'/portfolio',component:require('./components/Portfolio.vue'),meta:{requiresAuth:true}},
+        {path:'/profile',component:require('./components/Profile.vue'),meta:{requiresAuth:true}},
+        {path:'/events',component:require('./components/Event.vue'),meta:{requiresAuth:true}},
+        {path:'/contact',component:require('./components/Contact.vue'),meta:{requiresAuth:true}},
+        {path:'/about',component:require('./components/About.vue'),meta:{requiresAuth:true}},
+        {path:'/comments',component:require('./components/Comment.vue'),meta:{requiresAuth:true}},
+        {path:'/posts',component:require('./components/Post.vue'),meta:{requiresAuth:true}},
      ]
+    
     },
     
 
@@ -159,6 +161,40 @@ const routes=[
 const router = new VueRouter({
     routes
 });
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      // this route requires auth, check if logged in
+      // if not, redirect to login page.
+      if (!store.getters.loggedIn) {
+        next({
+          path: '/login',
+        })
+      } else {
+        next()
+      }
+    } else {
+      next() // make sure to always call next()!
+    }
+  })
+Vue.component(
+    'passport-clients',
+    require('./components/passport/Clients.vue')
+);
+
+Vue.component(
+    'passport-authorized-clients',
+    require('./components/passport/AuthorizedClients.vue')
+);
+
+Vue.component(
+    'passport-personal-access-tokens',
+    require('./components/passport/PersonalAccessTokens.vue')
+);
+
+
+
+
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('side-nav', require('./components/SideNav.vue'));
 Vue.component('foot',require('./components/Foot.vue'));

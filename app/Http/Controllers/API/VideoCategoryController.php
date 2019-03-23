@@ -12,6 +12,7 @@ class VideoCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+   
     public function index()
     {
         return VideoCategory::latest()->paginate(10);

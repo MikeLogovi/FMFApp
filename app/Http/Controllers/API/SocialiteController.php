@@ -14,6 +14,7 @@ class SocialiteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
         return Socialite::latest()->paginate(10);

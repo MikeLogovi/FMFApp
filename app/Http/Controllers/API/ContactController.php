@@ -13,6 +13,7 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
         return Contact::first();

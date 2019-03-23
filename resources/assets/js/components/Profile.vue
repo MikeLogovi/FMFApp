@@ -10,15 +10,18 @@
             <div class="card card-widget widget-user">
               <!-- Add the bg color to the header using any of the bg-* classes -->
               <div class="widget-user-header text-white"
-                   style="background: url('/slide/img/slide1.jpg') center center;">
+                   style="background: url('/img/arriere_plan.jpg') center center;">
                 <h3 class="widget-user-username">{{user.name}}</h3>
                
               </div>
               <div class="widget-user-image">
-                <img class="img-circle" src="/slide/img/slide1.jpg" alt="User Avatar">
+                <v-list-tile-avatar>
+                    <v-img class="img img-responsive" :src="user.picture" width="150px" height="150px"></v-img>
+                  </v-list-tile-avatar>
               </div>
-              <div class="card-footer">
-                  <form role="form" enctype="multipart/form-data" @submit.prevent="updateUser">
+              
+            </div>
+              <form role="form" enctype="multipart/form-data" @submit.prevent="updateUser">
                 <div class="card-body">
                     <alert-error :form="form" message="There were some problems with your input."></alert-error>
                     <div class="form-group">
@@ -72,8 +75,6 @@
               </form>
                  
   
-              </div>
-            </div>
             <!-- /.widget-user -->
           </div>
           <!-- /.col -->
@@ -123,6 +124,8 @@ export default{
                   type: 'success',
                   title: 'Profile updated successfully'
                 })
+                this.fileName=""
+                this.form.reset()
              }).catch(()=>{
                  this.$Progress.fail()
              })

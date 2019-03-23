@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\ImageCategory;
 class GalleryController extends Controller
-{
+{    
     public function random(){
         return DB::table('images')->inRandomOrder()->paginate(10);
    }

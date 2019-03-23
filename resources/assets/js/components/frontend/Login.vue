@@ -1,16 +1,20 @@
 <template>
 <body>
+  <vue-progress-bar></vue-progress-bar>
        <form class="form-signin" @submit.prevent="login">
         
           <div class="text-center mb-4">
-            <img class="mb-4" src="/website/logo/fmf.png" alt="" width="72" height="72">
-            <h1 class="h3 mb-3 font-weight-normal">LOGIN</h1>
+            <img class="mb-4" :src="item.logo" alt="" width="72" height="72">
+            <h1 class="section-heading text-primary h1-responsive font-weight-bold text-center my-5">Login</h1>
+
           </div>
-          
+            <div class="alert alert-danger" v-if="error.form">
+                 {{error.message}}
+             </div>
             <div class="form-label-group">
-                <input v-model='form.email' :class="{'is-invalid':form.errors.has('email')}" type="text" class="form-control" id="email" name="email">
-                <has-error :form="form" field="email"></has-error>
-                <label for="email">Email address</label>
+                <input v-model='form.username' :class="{'is-invalid':form.errors.has('username')}" type="email" class="form-control" id="username" name="username">
+                <has-error :form="form" field="username"></has-error>
+                <label for="username">E-mail address</label>
             </div>
             <div class="form-label-group">
                 <input v-model='form.password' :class="{'is-invalid':form.errors.has('password')}" type="text" class="form-control" id="password" name="password">
@@ -35,22 +39,43 @@ export default{
     data(){
         return {
             form:new Form({
-               email:'',
+               grant_type:'password',
+               client_id:2,
+               client_secret:'5p45ZgHNbYeui0UZEMRK2zC3gIwq7BvCLbMakulS',
+               username:'',
                password:'',
                checkbox:false
             }),
             item:{},
+            error:{
+              form:false,
+              message:''
+            }
 
         }
     },
     mounted(){
-
+        this.loadWebsite()
+       
     },
     methods:{
+        loadWebsite(){
+          axios.get('api/website').then(({data})=>{
+             this.item=data
+          })
+        },
         login(){
-            axios.post('login',this.form).then(()=>{
-                this.$route.push('/administration')
-            })
+          this.error.form=false
+          this.$Progress.start()
+          this.$store.dispatch('retrieveToken',this.form).then((response)=>{
+                  this.$router.push('/administration')
+                   this.$Progress.finish()
+          }).catch((error)=>{
+                this.$Progress.fail()
+                this.error.form=true
+                this.error.message="Your credentials doesn't match with any of our records"
+                
+          });
         }
     }
 }

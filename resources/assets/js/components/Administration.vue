@@ -154,8 +154,8 @@
                 </v-list-tile-content>
               </v-list-tile>
               </router-link>
-               <router-link to="/logout">
-              <v-list-tile>
+              <router-link  to="#" >
+              <v-list-tile v-if="loggedIn" @click.prevent="logout">
                 <v-list-tile-action>
                   <v-icon>fas fa-sign-out-alt</v-icon>
                 </v-list-tile-action>
@@ -200,6 +200,11 @@
         this.loadWebsite()
       })
     },
+    computed:{
+      loggedIn(){
+          return this.$store.getters.loggedIn
+      }
+    },
     methods:{
       loadUser(){
             this.$store.dispatch('loadUser').then(()=>{
@@ -210,6 +215,11 @@
            this.$store.dispatch('loadWebsite').then(()=>{
            this.website=this.$store.state.website
            }) 
+      },
+      logout(){
+        this.$store.dispatch('destroyedToken').then(()=>{
+           this.$router.push('/')
+        })
       }
     }
   }

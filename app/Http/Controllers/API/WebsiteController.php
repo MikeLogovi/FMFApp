@@ -13,6 +13,7 @@ class WebsiteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
         return Website::first();

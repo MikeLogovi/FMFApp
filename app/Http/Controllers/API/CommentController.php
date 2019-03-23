@@ -14,6 +14,7 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+  
     public function index(){
         return Comment::latest()->paginate(10);
     }

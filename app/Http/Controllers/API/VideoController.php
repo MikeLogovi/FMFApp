@@ -15,6 +15,7 @@ class VideoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
         return Video::latest()->paginate(10);

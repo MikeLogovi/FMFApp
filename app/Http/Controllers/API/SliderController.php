@@ -14,7 +14,7 @@ class SliderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
+  
     public function index()
     {
         return Slider::latest()->paginate(10);

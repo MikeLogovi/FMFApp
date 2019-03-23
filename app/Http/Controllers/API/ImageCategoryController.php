@@ -15,6 +15,7 @@ class ImageCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+   
     public function index()
     {
         return ImageCategory::latest()->paginate(10);
