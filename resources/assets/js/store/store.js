@@ -6,9 +6,28 @@ export const store=new Vuex.Store({
     state:{
         user:{},
         website:{},
+        dashboard:{
+            histories:null,
+            comments:null,
+            events:null,
+            images:null,
+            image_categories:null,
+            images:null,
+            posts:null,
+            sliders:null,
+            socialites:null,
+            videos:null,
+            video_categories:null
+        },
         token:localStorage.getItem('access_token')||null,
     },
     mutations:{
+        loadHistories(state,data){
+            state.dashboard.histories=data
+        },
+        loadComments(state,data){
+            state.dashboard.comments=data
+        },
         loadUser(state,data){
             state.user=data
         },
@@ -28,6 +47,21 @@ export const store=new Vuex.Store({
        }
     },
     actions:{
+        loadHistories(context){
+            if(context.getters.loggedIn){
+
+                return new Promise((resolve,reject)=>{
+                    
+                    axios.get('api/about').then(({data})=>{
+                        this.items=data.paginate
+                    }).catch(error=>{
+                        localStorage.removeItem("access_token")
+                        context.commit('destroyedToken')
+                         reject(error)
+                     })
+                  })
+            }
+        },
         retrieveToken(context,form){
             return new Promise((resolve,reject)=>{
                 

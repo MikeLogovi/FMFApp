@@ -1,7 +1,6 @@
 <template>
 <div>
   <top-bar></top-bar>
-  <gallery :images="videos" :index="index" @close="index = null"></gallery>
    <v-layout>
     <v-flex lg12 sm12>
       <v-card>
@@ -32,20 +31,48 @@
           <div class="row mList" :id="key" >
               <div class="col-lg-4 col-lg-offset-2 ">
                    <div class='card__video'>
-                      <video width="200" height="170" controls class='video'>
+                    <div v-if="item.source">
+                         <video 
+                         controls
+                         preload="auto"
+     
+                         data-setup='{}' width="200" height="200" >
                             <source :src="item.source" type="video/mp4">
                             <source :src="item.source" type="video/ogg">
-                        </video>  
-                
+                        </video>
+                       <modal :name="`modal${item.id}`" heigth="auto">
+                         <div  class="embed-responsive embed-responsive-16by9">
+                            <video autoplay class="embed-responsive-item" 
+                                controls
+                                preload="auto"
+            
+                                data-setup='{}' >
+                            <source :src="item.source" type="video/mp4">
+                            <source :src="item.source" type="video/ogg">
+                        </video>
+                        </div>
+                       </modal>
+       
                        
+                     
+                     </div>
+                     <div v-else-if="item.link">
+                       <iframe width="200" height="200" :src="`${item.link}?autoplay=0`" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <modal :name="`modal${item.id}`"  height="auto">
+                          <div class="embed-responsive embed-responsive-16by9">
+                            <iframe  class="embed-responsive-item"  :src="`${item.link}`" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                          </div>
+                       </modal>
+                       
+                     </div>
                   </div>
               </div>
              <div class="col-lg-4 ">
-                 <div class='description'>
+                 <div class='description' ref="description">
                      <span class='title'>{{item.name}}</span><br/>
                      <p class='heading'>Added {{item.created_at|now}}</p>
                      <p class='subtitle'><span v-html="item.description"></span></p>
-                     <button   @click="index = key" class='popup btn btn-success'>Wath video</button>
+                     <button   @click="show('modal'+item.id)" class='btn btn-success'>Wath video</button>
                  </div>
             </div>
              
@@ -71,9 +98,10 @@
 <script>
 import TopBar from './TopBar'
 import NewFooter from './NewFooter'
- import VueGallery from 'vue-gallery';
+import MagnificPopupModal from './MagnificPopupModal'
+
  export default {
-   components:{TopBar,NewFooter, 'gallery': VueGallery},
+   components:{TopBar,NewFooter, MagnificPopupModal},
 
 
     data () {
@@ -87,7 +115,9 @@ import NewFooter from './NewFooter'
       }
     },
     mounted(){
-        	this.loadVideos()
+          
+          this.loadVideos()
+          console.log("My ref .."+this.$refs.description)
           Echo.channel('my-channel').listen('VideoEvent',(e)=>{
             this.loadVideos()
             console.log('my website loged')
@@ -96,20 +126,20 @@ import NewFooter from './NewFooter'
     },
     methods:{
         paginate(page = 1) {
-  axios.get('api/video?page=' + page)
+        axios.get('api/video?page=' + page)
             .then(response => {
-              this.items = response.data;
+              this.items = response.data.paginate;
             });
         },
          loadVideos(){
             axios.get('api/video').then(({data})=>{
-                       
-                        this.items=data 
+                  this.items=data.paginate
             })
          },
-          openModal () {
-            console.log(this.$refs.modal)
+         show(modal) {
+             this.$modal.show(modal);
           },
+
           search(){
             setTimeout(()=>{
                  axios.get('/videos/search?query='+this.query).then(({data})=>{

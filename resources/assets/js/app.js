@@ -31,6 +31,9 @@ import VueProgressBar from 'vue-progressbar'
 import 'viewerjs/dist/viewer.css'
 import Viewer from 'v-viewer'
 import {store} from './store/store'
+import VModal from 'vue-js-modal'
+
+Vue.use(VModal)
 window.getFileExtension=function(file){
     var name=file.split('.')
     if(name.length===1||(name[0]==''&& name.length==2)){
@@ -129,7 +132,7 @@ const routes=[
     {path:'/welcome',component:require('./components/frontend/HomePage.vue'),alias:'/'},
     {path: '/galleries',component:require('./components/frontend/Gallery2.vue')},
     {path: '/videos',component:require('./components/frontend/Video.vue')},
-    {path: '/login',component:require('./components/frontend/Login.vue')},
+    {path: '/login',component:require('./components/frontend/Login.vue'),meta:{isLogin:true}},
     {path:'/post/:id',component:require('./components/frontend/MyBlog.vue')},
      //Administration   
     {path: '/administration', component:require('./components/Administration.vue'),meta:{requiresAuth:true},
@@ -173,7 +176,19 @@ router.beforeEach((to, from, next) => {
       } else {
         next()
       }
-    } else {
+    } 
+    else if (to.matched.some(record => record.meta.isLogin)) {
+        // this route requires auth, check if logged in
+        // if not, redirect to login page.
+        if (!store.getters.loggedIn) {
+          next()
+        } else {
+            next({
+                path: '/administration',
+              })
+        }
+      } 
+    else {
       next() // make sure to always call next()!
     }
   })

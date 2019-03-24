@@ -73,7 +73,7 @@ export default {
                     e.preventDefault();
                     $(this).removeClass('bounce');
                     console.log('ok');
-                    $("html,body").animate({scrollTop:$(document).height()},"slow")
+                    $("html,body").animate({scrollTop:$("#slider").offset().top},"slow")
                     console.log('non');
                });
         });

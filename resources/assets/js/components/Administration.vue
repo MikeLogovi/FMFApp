@@ -184,12 +184,14 @@
     data: () => ({
       drawer: null,
       user:'',
-      website:''
+      website:'',
+      
     }),
     props: {
       source: String
     },
     mounted(){
+      
       this.loadUser()
       this.loadWebsite()
       Events.$on('userUpdated',()=>{
@@ -206,6 +208,7 @@
       }
     },
     methods:{
+     
       loadUser(){
             this.$store.dispatch('loadUser').then(()=>{
                  this.user=this.$store.state.user

@@ -83,15 +83,14 @@
         paginate(page = 1) {
           axios.get('api/about?page=' + page)
             .then(response => {
-              this.items = response.data;
+              this.items = response.data.paginate;
             });
         },
         
         loadHistories(){
-            axios.get('api/about').then(({data})=>{
-                this.items=data
-            })
-
+             axios.get('api/about').then(({data})=>{
+                     this.items=data.paginate
+             })
         },
         updateAbout(item){
           Events.$emit('AboutUpdateForm',item)
@@ -118,7 +117,7 @@
                                 }).catch(()=>{
                                         this.$Progress.fail()
                                         Toast.fire({
-                                        type: 'danger',
+                                        type: 'error',
                                         title: 'Sorry, an error occured'
                                         })
                                         

@@ -4,7 +4,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light ftco_navbar  ftco-navbar-light" id='thisNav' >
 	    <div class="container">
-	      <a class="navbar-brand" href="#" @click.prevent='scrolling("#banner")'><img src='/website/logo/fmf.png' style='width:100px;height:75px;'/></a>
+	      <a class="navbar-brand" href="#" @click.prevent='scrolling("#banner")'><img :src='item.logo' style='width:100px;height:75px;'/></a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
@@ -42,6 +42,7 @@ export default {
    components:{BtnGroup ,Btn},
    data () {
       return {
+        item:"",
         verif:'',
         style:{},
         drawer: false,
@@ -60,13 +61,22 @@ export default {
         ]
       }
    },
+   mounted(){
+       this.loadWebsiteParams()
+   },
    created(){
+   
    this.$nextTick(_=>{
         $('#thisNav').css('display','none')
         this.init()
    })
    },
    methods:{
+    loadWebsiteParams(){
+			   axios.get('api/website').then(({data})=>{
+                    this.item=data 
+			   })
+		   },
    init(){
         this.$nextTick(_=>{
               	$(window).on('scroll',function(){

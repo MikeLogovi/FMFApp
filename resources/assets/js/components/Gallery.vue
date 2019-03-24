@@ -89,13 +89,13 @@ export default{
          paginate(page = 1) {
           axios.get('api/image?page=' + page)
             .then(response => {
-              this.items = response.data;
+              this.items = response.data.paginate;
             });
         },
      
         loadImages(){
             axios.get('api/image').then(({data})=>{
-                this.items=data
+                this.items=data.paginate
              
             })
         },

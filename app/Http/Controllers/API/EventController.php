@@ -22,7 +22,7 @@ class EventController extends Controller
     public function index()
     {
        updateEventPremiumState();
-       return Event::latest()->paginate(10);
+       return ['paginate'=>Event::latest()->paginate(10),'count'=>Event::all()->count()];
     }
 
     /**

@@ -80,6 +80,9 @@ export default{
     components:{Navigation,EventForm},
     mounted(){
         this.loadEvents();
+         Events.$on('EventCreated',()=>{
+             this.loadEvents();
+         })
     },
     data(){
         return{
@@ -94,16 +97,14 @@ export default{
          paginate(page = 1) {
           axios.get('api/event?page=' + page)
             .then(response => {
-              this.items = response.data;
+              this.items = response.data.paginate;
             });
         },
           loadEvents(){
               axios.get('api/event').then(({data})=>{
-                  this.items=data
+                  this.items=data.paginate
               })
-              Events.$on('EventCreated',()=>{
-                  this.loadEvents();
-              })
+             
           },
           deleteEvent(id){
             Swal.fire({

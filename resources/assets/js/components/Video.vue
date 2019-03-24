@@ -28,15 +28,20 @@
                 </thead>
                 <tbody id ='tbody' v-for="(item,key) in items.data" :key="key" >
                   <tr class='tr_table'>
-                   <td> 
+                   <td>
+                     <div v-if="item.source" >
                        <video  
                          controls
                          preload="auto"
      
                          data-setup='{}' width="200" height="75" >
-                            <source :src="sourceOrLink(item)" type="video/mp4">
-                            <source :src="sourceOrLink(item)" type="video/ogg">
-                        </video> 
+                            <source :src="item.source" type="video/mp4">
+                            <source :src="item.source" type="video/ogg">
+                        </video>
+                     </div>
+                     <div v-else-if="item.link">
+                       <iframe width="200" height="75" :src="`${item.link}?autoplay=0`" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                     </div>
                    </td>
                    <td>{{item.name}}</td>
                    <td>{{item.category_name}}</td>
@@ -82,6 +87,9 @@ export default{
     components:{Navigation,VideoForm},
     mounted(){
         this.loadVideos();
+         Events.$on('VideoCreated',()=>{
+                  this.loadVideos();
+          })
     },
     data(){
         return{
@@ -105,16 +113,14 @@ export default{
         paginate(page = 1) {
           axios.get('api/video?page=' + page)
             .then(response => {
-              this.items = response.data;
+              this.items = response.data.paginate;
             });
         },
           loadVideos(){
               axios.get('api/video').then(({data})=>{
-                  this.items=data
+                  this.items=data.paginate
               }) 
-              Events.$on('VideoCreated',()=>{
-                  this.loadVideos();
-              })
+             
           },
           deleteVideo(id){
            Swal.fire({
@@ -134,7 +140,7 @@ export default{
                                 'Your video has been deleted.',
                                 'success'
                              )
-                             this.loadVideos();
+                             Events.$emit('VideoCreated')
                              this.$Progress.finish()
                             }
                              

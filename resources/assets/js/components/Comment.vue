@@ -83,13 +83,13 @@
          paginate(page = 1) {
           axios.get('api/comment?page=' + page)
             .then(response => {
-              this.items = response.data;
+              this.items = response.data.paginate;
             });
         },
         loadComments(){
             axios.get('api/comment').then(({data})=>{
-                this.items=data
-            })
+                    this.items=data.paginate
+             })
 
         },
         updateComment(item){
@@ -117,7 +117,7 @@
                                 }).catch(()=>{
                                         this.$Progress.fail()
                                         Toast.fire({
-                                        type: 'danger',
+                                        type: 'error',
                                         title: 'Sorry, an error occured'
                                         })
                                         

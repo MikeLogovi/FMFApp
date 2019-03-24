@@ -1,5 +1,5 @@
 <template>
-  <div v-if="items[0]">
+  <div v-if="items[0]" id="slider">
     <b-carousel
       id="carousel1"
       style="text-shadow: 1px 1px 2px #333; margin-top:0"

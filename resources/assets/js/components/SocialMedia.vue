@@ -79,12 +79,12 @@ export default{
          paginate(page = 1) {
           axios.get('api/socialite?page=' + page)
             .then(response => {
-              this.items = response.data;
+              this.items = response.data.paginate;
             });
         },
        loadSocialMedia(){
             axios.get('api/socialite').then(({data})=>{
-             this.items=data
+             this.items=data.paginate
             })
        },
        addSocialMedia(){

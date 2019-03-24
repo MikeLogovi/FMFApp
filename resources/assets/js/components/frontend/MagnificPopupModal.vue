@@ -107,6 +107,8 @@
 
 
 <style lang="scss">
+@import "~magnific-popup/src/css/main.scss";
+
   .mfp-content {
     text-align: center;
   }

@@ -17,7 +17,7 @@ class PostController extends Controller
    
     public function index()
     {
-        return  Post::latest()->paginate(10);
+        return ['paginate'=>Post::latest()->paginate(10),'count'=>Post::all()->count()];
     }
     
 

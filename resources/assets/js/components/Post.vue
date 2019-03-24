@@ -83,19 +83,19 @@ export default{
         this.loadPosts();
           Events.$on('PostCreated',()=>{
                   this.loadPosts();
-              })
+         })
     },
   
     methods:{
          paginate(page = 1) {
           axios.get('api/post?page=' + page)
             .then(response => {
-              this.items = response.data;
+              this.items = response.data.paginate;
             });
         },
           loadPosts(){
               axios.get('api/post').then(({data})=>{
-                  this.items=data
+                  this.items=data.paginate
                   
               })
             

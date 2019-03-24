@@ -4,7 +4,7 @@
        <form class="form-signin" @submit.prevent="login">
         
           <div class="text-center mb-4">
-            <img class="mb-4" :src="item.logo" alt="" width="72" height="72">
+            <img class="mb-4" :src="item.logo" alt="" width="72" height="72" style="margin-top:2.75em">
             <h1 class="section-heading text-primary h1-responsive font-weight-bold text-center my-5">Login</h1>
 
           </div>
@@ -22,11 +22,7 @@
                 <label for="password">Password</label>
              </div>
         
-          <div class="checkbox mb-3">
-            <label>
-            <input type="checkbox" name="remember" v-model="form.checkbox"> Remember Me
-            </label>
-          </div>
+        
           <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
           
   </form>
@@ -44,7 +40,7 @@ export default{
                client_secret:'5p45ZgHNbYeui0UZEMRK2zC3gIwq7BvCLbMakulS',
                username:'',
                password:'',
-               checkbox:false
+               
             }),
             item:{},
             error:{

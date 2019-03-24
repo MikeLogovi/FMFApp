@@ -17,8 +17,8 @@ class AboutController extends Controller
      */
   
     public function index()
-    {
-        return About::latest()->paginate(10);
+    {   
+        return ['paginate'=>About::latest()->paginate(10),'count'=>About::all()->count()];
     }
 
     /**

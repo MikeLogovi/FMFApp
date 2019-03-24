@@ -17,7 +17,7 @@ class SocialiteController extends Controller
     
     public function index()
     {
-        return Socialite::latest()->paginate(10);
+        return ['paginate'=>Socialite::latest()->paginate(10),'count'=>Socialite::all()->count()];
     }
 
     /**

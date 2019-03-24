@@ -16,7 +16,7 @@ class CommentController extends Controller
      */
   
     public function index(){
-        return Comment::latest()->paginate(10);
+        return ['paginate'=>Comment::latest()->paginate(10),'count'=>Comment::all()->count()];
     }
    
 

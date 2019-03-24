@@ -19,7 +19,7 @@ class ImageController extends Controller
     public function index()
     {  
         
-        return Image::latest()->paginate(10);
+        return ['paginate'=>Image::latest()->paginate(10),'count'=>Image::all()->count()];
     
     }
 
