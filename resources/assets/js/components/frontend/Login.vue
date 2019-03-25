@@ -36,8 +36,8 @@ export default{
         return {
             form:new Form({
                grant_type:'password',
-               client_id:2,
-               client_secret:'gLIaT60Sq49kiftYWcAzZFF4f2v3hzGkTlezBwlS',
+               client_id:4,
+               client_secret:'WW6uwOB3y2kJvnV00g1ua9rVfSkVhrnbG2h3rnBs',
                username:'',
                password:'',
                
