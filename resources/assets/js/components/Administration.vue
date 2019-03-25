@@ -191,7 +191,15 @@
       source: String
     },
     mounted(){
-      
+      this.$nextTick(()=>{
+       $(document).ready(function(){
+            
+             $('body').remove('.top_link')
+             
+       })
+         
+       
+      })
       this.loadUser()
       this.loadWebsite()
       Events.$on('userUpdated',()=>{

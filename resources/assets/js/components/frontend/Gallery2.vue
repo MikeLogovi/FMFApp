@@ -23,7 +23,7 @@
 
 		<!-- Main -->
 			<div id="main">
-				<div  class=" inner" v-viewer="{movable: false}">
+				<div  class="images  inner" v-viewer="{movable: false}">
 					<div class="columns">
 
 						<!-- Column 1 (horizontal, vertical, horizontal, vertical) -->
@@ -32,7 +32,7 @@
 								             <img  :src="item.source">
 
 							                 </div>
-							
+					
 			
 					</div>
 				</div>

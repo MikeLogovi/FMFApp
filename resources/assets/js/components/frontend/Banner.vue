@@ -4,9 +4,9 @@
 		<div class="home_content">
 			<div class="home_content_inner">
 				<div class="home_text_large">Welcome</div>
-				<div class="home_text_small"><img :src='item.logo' alt='logo' class='img img-responsive myLogo' /></div>
+				<div class="home_text_small"><img src='/website/logo/logo.png' alt='logo' class='img img-responsive myLogo' /></div>
 			</div>
-             <div  class="arrow bounce"><a href='#' ><v-icon size="30px" color="white">fa fa-chevron-circle-down</v-icon></a></div>
+        <div  class="arrow bounce"><a href='#' ><v-icon size="30px" color="white">fa fa-chevron-circle-down</v-icon></a></div>
 
 		</div>
 	</div>
@@ -27,7 +27,7 @@
 			this.loadWebsiteParams()
 			Echo.channel('my-channel').listen('WebsiteStateChanged',(e)=>{
 				 this.loadWebsiteParams()
-				 console.log('my website loged')
+				
 			})
 	   },
 	   methods:{
@@ -470,7 +470,7 @@
 ************/
 
 @media only screen and (max-width: 575px)
-{
+{ 
    .myLogo{
 		width:375px;
 		height:375px;
@@ -712,11 +712,15 @@
 @media only screen and (max-width: 539px)
 {
 	 .myLogo{
+		 margin-top:1.5em;
 		width:375px;
 		height:375px;
 		margin-bottom:1em;
 		margin-left:0.75em;
-    }
+		}
+		 .arrow{
+	     margin-top:12em;
+     }
 	
 }
 

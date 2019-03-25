@@ -6,7 +6,7 @@
 
     <nav id='myNav' class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" >
 	    <div class="container">
-	      <a class="navbar-brand" href="#"><img src='/website/logo/fmf.png' style='width:75px;height:75px;'/></a>
+	      <a class="navbar-brand" href="#"><img :src='item.logo' style='width:75px;height:75px;'/></a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
@@ -34,23 +34,15 @@ export default {
    
    data () {
       return {
-        verif:'',
-        style:{},
-        drawer: false,
-       toolClass:'',
-       toolItemClass:'',
-        items: [
-          { title: '', icon: '',link:'' },
-          { title: '        ', icon: '   ',link:'    ' },
-          { title: 'WELCOME', icon: 'home',link:'/' },
-          { title: 'PORTFOLIO', icon: 'work',link:'/portfolio' },
-          { title: 'GALLERIES', icon: 'photo_album',link:'/galleries' },
-          { title: 'VIDEOS', icon: 'videocam',link:'/videos' },
-          { title: 'ABOUT', icon: 'description',link:'/about' },
-          { title: 'CONTACT', icon: 'contact_phone',link:'/contact' },
-
-        ]
+         item:{}
       }
+   },
+   mounted(){
+     this.loadWebsiteParams()
+     Echo.channel('my-channel').listen('WebsiteStateChanged',(e)=>{
+				 this.loadWebsiteParams()
+				
+			})
    },
    created(){
    
@@ -63,7 +55,11 @@ export default {
     })  
    },
    methods:{
-  
+     loadWebsiteParams(){
+			   axios.get('api/website').then(({data})=>{
+                    this.item=data 
+			   })
+		   },
      ok(){
 
      },

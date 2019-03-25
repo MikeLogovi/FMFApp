@@ -43,26 +43,14 @@ export default {
    data () {
       return {
         item:"",
-        verif:'',
-        style:{},
-        drawer: false,
-       toolClass:'',
-       toolItemClass:'',
-        items: [
-          { title: '', icon: '',link:'' },
-          { title: '        ', icon: '   ',link:'    ' },
-          { title: 'WELCOME', icon: 'home',link:'/' },
-          { title: 'PORTFOLIO', icon: 'work',link:'/portfolio' },
-          { title: 'GALLERIES', icon: 'photo_album',link:'/galleries' },
-          { title: 'VIDEOS', icon: 'videocam',link:'/videos' },
-          { title: 'ABOUT', icon: 'description',link:'/about' },
-          { title: 'CONTACT', icon: 'contact_phone',link:'/contact' },
-
-        ]
       }
    },
    mounted(){
        this.loadWebsiteParams()
+       Echo.channel('my-channel').listen('WebsiteStateChanged',(e)=>{
+				 this.loadWebsiteParams()
+				
+			})
    },
    created(){
    

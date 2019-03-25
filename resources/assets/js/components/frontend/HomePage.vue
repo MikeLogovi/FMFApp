@@ -47,8 +47,9 @@ export default {
     mounted(){
      
         this.$nextTick(_=>{
+               
                 $(document).ready(function(){
-                   $('body').append('<a href="#banner" class="top_link peach-gradient" title="Revenir en haut de page"><i class="fas fa-angle-up"></i></a>');
+                   /*$('body').append('<a href="#banner" class="top_link peach-gradient" title="Revenir en haut de page"><i class="fas fa-angle-up"></i></a>');
                    $('.top_link').css({
                                       'position'				:	'fixed',
                                       'right'					:	'20px',
@@ -60,7 +61,7 @@ export default {
                                       'border-radius'			:	'40px',
                                       'opacity'				:	'0.9',
                                       'z-index'				:	'2000'
-                                    });
+                                    });*/
                 });
                 $(window).scroll(function(){
                       var posScroll = $(document).scrollTop();
