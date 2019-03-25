@@ -164,6 +164,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         MercurySeries\Flashy\FlashyServiceProvider::class,
+        LaravelPassportPassportServiceProvider::class,
         /*
          * Package Service Providers...
          */
