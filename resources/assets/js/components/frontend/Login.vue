@@ -14,12 +14,12 @@
             <div class="form-label-group">
                 <input v-model='form.username' :class="{'is-invalid':form.errors.has('username')}" type="email" class="form-control" id="username" name="username">
                 <has-error :form="form" field="username"></has-error>
-                <label for="username">E-mail is not address address</label>
+                <label for="username">Your E-mail address</label>
             </div>
             <div class="form-label-group">
                 <input v-model='form.password' :class="{'is-invalid':form.errors.has('password')}" type="text" class="form-control" id="password" name="password">
                 <has-error :form="form" field="password"></has-error>
-                <label for="password">Password</label>
+                <label for="password">Your Password</label>
              </div>
         
         
