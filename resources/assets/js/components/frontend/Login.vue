@@ -14,7 +14,7 @@
             <div class="form-label-group">
                 <input v-model='form.username' :class="{'is-invalid':form.errors.has('username')}" type="email" class="form-control" id="username" name="username">
                 <has-error :form="form" field="username"></has-error>
-                <label for="username">E-mail address</label>
+                <label for="username">E-mail is not address address</label>
             </div>
             <div class="form-label-group">
                 <input v-model='form.password' :class="{'is-invalid':form.errors.has('password')}" type="text" class="form-control" id="password" name="password">
