@@ -55,7 +55,7 @@ return [
         ],
         'mysql_production' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', ''),
+            'host' => env('DB_HOST', 'db4free.net'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'fmf_database'),
             'username' => env('DB_USERNAME', 'fmf_user'),
