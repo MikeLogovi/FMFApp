@@ -77,9 +77,10 @@ class SliderController extends Controller
     {
         $slider=Slider::findOrFail($id);
         if(!empty($request->file)){
-            unlink(public_path().$slider->source);
+            if(file_exists(public_path().$slider->source)){
+                unlink(public_path().$slider->source);
+            }
             $filename=file_upload($request->file,'/slide/img/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
-
             $slider->source='/slide/img/'.$filename;
         }
         if(!empty($request->name)){
@@ -105,7 +106,11 @@ class SliderController extends Controller
     public function destroy($id)
     {
         $slider=Slider::findOrFail($id);
-        unlink(public_path().$slider->source);
+        if($slider->source){
+            if(file_exists(public_path().$slider->source)){
+                unlink(public_path().$slider->source);
+            }
+        }
         $slider->delete();
         event(new SliderEvent);
         return ['message'=>'Slider deleted'];

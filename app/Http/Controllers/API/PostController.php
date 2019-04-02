@@ -107,12 +107,16 @@ class PostController extends Controller
             $post->attached_link=$request->attached_link;
         }
         if(!empty($request->attached_image)){
-            unlink(public_path().$post->attached_image);
+            if(file_exists(public_path().$post->attached_image)){
+                unlink(public_path().$post->attached_image);
+            }
             $imagename=file_upload($request->attached_image,'/posts/img/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
             $post->attached_image='/posts/img/'.$imagename;
         }
         if(!empty($request->attached_file)){
-            unlink(public_path().$post->attached_file);
+            if(file_exists(public_path().$post->attached_file)){
+                unlink(public_path().$post->attached_file);
+            }
             $filename=file_upload($request->attached_file,'/posts/files/',['pdf','word']);
             $post->attached_file='/posts/files/'.$filename;
         }
@@ -130,7 +134,9 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post=Post::findOrFail($id);
-        unlink(public_path().$post->attached_image);
+        if(file_exists(public_path().$post->attached_image)){
+            unlink(public_path().$post->attached_image);
+        }
         if($post->attached_file!=NULL){
             unlink(public_path().$post->attached_file);
         }

@@ -79,10 +79,10 @@ class AboutController extends Controller
     {
         $about=About::FindOrFail($id);
         if(!empty($request->file)){
-            
-            unlink(public_path().$about->source);
+            if(file_exists(public_path().$about->source)){
+                unlink(public_path().$about->source);
+           }
             $filename=file_upload($request->file,'/about/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
-            
             $about->source='/about/'.$filename;
         }
         if(!empty($request->title)){
@@ -109,7 +109,12 @@ class AboutController extends Controller
     public function destroy($id)
     {
         $about=About::FindOrFail($id);
-        unlink(public_path().$about->source);
+        if($about->source){
+            if(file_exists(public_path().$about->source)){
+                unlink(public_path().$about->source);
+            }
+            
+        }
         event(new AboutEvent);
         $about->delete();
     }

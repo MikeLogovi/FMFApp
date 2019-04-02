@@ -86,9 +86,10 @@ class EventController extends Controller
     {
         $event=Event::findOrFail($id);
         if(!empty($request->file)){
-            unlink(public_path().$event->source);
+            if(file_exists(public_path().$event->source)){
+               unlink(public_path().$event->source);
+            }
             $filename=file_upload($request->file,'/events/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
-           
             $event->source='/events/'.$filename;
         }
         if(!empty($request->title)){
@@ -127,7 +128,11 @@ class EventController extends Controller
     public function destroy($id)
     {
         $event=Event::findOrFail($id);
-        unlink(public_path().$event->source);
+        if($event->source){
+            if(file_exists(public_path().$event->source)){
+                unlink(public_path().$event->source);
+            }
+        }
         $state=$event->event_state;
         $event->delete();
         $this->publishEvent($state);

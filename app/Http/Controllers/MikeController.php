@@ -1,22 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Website;
-use App\Events\WebsiteStateChanged;
-class WebsiteController extends Controller
+
+class MikeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    
     public function index()
     {
-        return Website::first();
+        //
     }
 
     /**
@@ -71,24 +68,7 @@ class WebsiteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $website=Website::first();
-        if(!empty($request->name)){
-            $website->name=$request->name;
-        }
-        if(!empty($request->file)){
-            if(file_exists(public_path().$website->logo)){
-                unlink(public_path().$website->logo);
-            }
-            $filename=file_upload($request->file,'/website/logo/',['jpeg','jpg','png','gif','JPEG','JPG','PNG','GIF']);
-            $website->logo='/website/logo/'.$filename;
-        }
-        if(!empty($request->quote)){
-            $website->quote=$request->quote;
-        }
-        $website->save();
-        event(new WebsiteStateChanged);
-        return $website;
-
+        //
     }
 
     /**

@@ -81,7 +81,9 @@ class CommentController extends Controller
             $comment->fullName=$request->fullName;
         }
         if(!empty($request->file)){
-            unlink(public_path().$comment->avatar);
+            if(file_exists(public_path().$comment->avatar)){
+                unlink(public_path().$comment->avatar);
+            }
             $filename=file_upload($request->file,'/comments/avatars/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
             
             $comment->avatar='/comments/avatars/'.$filename;
@@ -104,7 +106,11 @@ class CommentController extends Controller
     {
         $comment=Comment::findOrFail($id);
         event(new CommentEvent);
-        unlink(public_path().$comment->avatar);
+        if($comment->avatar){
+           if(file_exists(public_path().$comment->avatar)){
+               unlink(public_path().$comment->avatar);
+           }
+        }
         $comment->delete();
     }
     public function vue()

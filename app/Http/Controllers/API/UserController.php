@@ -102,7 +102,9 @@ class UserController extends Controller
         }
         if($request->file){
             if($this->user->picture){
-                unlink(public_path().$this->user->picture) ;
+                if(file_exists(public_path().$this->user->picture)){
+                    unlink(public_path().$this->user->picture) ;
+                }
             }
             $filename=file_upload($request->file,'/user/img/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
             $this->user->picture='/user/img/'.$filename;

@@ -39,9 +39,7 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
-        
         $this->validate($request,['name'=>'required|string|min:4|unique:videos|max:191','category'=>'required','description'=>'required']);
-        
         $category=VideoCategory::find($request->category);
         if(empty($request->link)){
             $filename=file_upload($request->file,'/videos/',['mp4','MP4']);
@@ -51,7 +49,6 @@ class VideoController extends Controller
             $this->validate($request,['link'=>'url']);
             $video=Video::create(['name'=>$request->name,'link'=>$request->link,'description'=>$request->description,'category_id'=>(int)$request->category,'category_name'=>$category->name]);
         }
-       
         event(new VideoEvent);
         return $video;
     }
@@ -94,16 +91,16 @@ class VideoController extends Controller
             $video->name=$request->name;
         }
         if(!empty($request->category)){
-            
-            $video->category_name=$category->name;
+           $video->category_name=$category->name;
         }
         if(!empty($request->description)){
-            
             $video->description=$request->description;
         }
         
         if(!empty($request->file)){
-            unlink(public_path().$video->source) ;
+            if(file_exists(public_path().$video->source)){
+                unlink(public_path().$video->source) ;
+            }
             $filename=file_upload($request->file,'/videos/',['mp4','MP4']);
             $video->source='/videos/'.$filename;
         }
@@ -125,7 +122,9 @@ class VideoController extends Controller
     {
         $video=Video::findOrFail($id);
         if($video->source){
-            unlink(public_path().$video->source);
+            if(file_exists(public_path().$video->source)){
+                unlink(public_path().$video->source);
+            }
         }
         $video->delete();
         event(new VideoEvent);

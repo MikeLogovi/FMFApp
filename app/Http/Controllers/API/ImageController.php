@@ -92,7 +92,9 @@ class ImageController extends Controller
         }
         
         if($request->file){
-            unlink(public_path().$image->source) ;
+            if(file_exists(public_path().$image->source)){
+                unlink(public_path().$image->source) ;
+            }
             $filename=file_upload($request->file,'/img/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
             $image->source='/img/'.$filename;
         }
@@ -111,7 +113,11 @@ class ImageController extends Controller
     public function destroy($id)
     {
         $image=Image::findOrFail($id);
-        unlink(public_path().$image->source);
+        if($image->source){
+            if(file_exists(public_path().$image->source)){
+                unlink(public_path().$image->source);
+            }
+        }
         $image->delete();
         event(new ImageEvent);
         return ['message'=>'Image deleted'];
