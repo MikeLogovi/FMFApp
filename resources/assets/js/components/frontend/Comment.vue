@@ -1,5 +1,5 @@
 <template>
-<section id="team" v-if="items[0]">
+<section id="team" v-if="comments[0]">
    <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
@@ -8,11 +8,11 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-4" v-for="(item,key) in items" :key="key">
+          <div class="col-sm-4" v-for="(item,key) in comments" :key="key">
             <div class="team-member">
               <img class="mx-auto rounded-circle" :src="item.avatar" alt="">
               <h4>{{item.fullName}}</h4>
-              <p class="text-muted">{{item.comment}}r</p>
+              <p class="text-muted">{{item.comment}}</p>
               
             </div>
           </div>
@@ -21,34 +21,26 @@
 </section>
 </template>
 <script>
+   import {mapState} from 'vuex'
    export default{
        name:'comment',
-       components:{},
-       data(){
-           return{
-              items:{
-                
-              }
-           }
-       },
        mounted(){
-			this.loadComments()
-			Echo.channel('my-channel').listen('CommentEvent',(e)=>{
-				 this.loadComments()
-				 console.log('my comment')
-			})
-	   },
+        this.loadComments()
+        Echo.channel('my-channel').listen('CommentEvent',(e)=>{
+          this.loadComments()
+        })
+     },
+     computed:{
+        ...mapState([
+          'comments'
+        ])
+     },
 	   methods:{
 		   loadComments(){
-			   axios.get('/comment/vue').then(({data})=>{
-                    this.items=data
-                    console.log(this.items)
-                     
-			   })
+         this.$store.dispatch('loadCommentsVue')
 		   }
 	   }
-       
-   }
+ }
 </script>
 <style scoped>
 #team{

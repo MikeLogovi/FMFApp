@@ -22,7 +22,11 @@
                          <input type="text" class='form-control' v-model='form.title' :class="{'is-invalid':form.errors.has('title')}" name='title' id='title'/>
                         <has-error :form="form" field="title"></has-error>
                     </div>
-                   
+                    <div class="form-group">
+                        <label for="circle_title">Circle title</label>
+                         <input type="text" class='form-control' v-model='form.circle_title' :class="{'is-invalid':form.errors.has('circle_title')}" name='circle_title' id='circle_title'/>
+                        <has-error :form="form" field="circle_title"></has-error>
+                    </div>
                     <div class="form-group">
                         <label for="period">Period</label>
                         <input type='date' v-model="form.period" class='form-control' id='period' name='period' :class="{'is-invalid':form.errors.has('period')}"/>
@@ -81,12 +85,13 @@ export default{
         return{
             form:new Form({
                 title:'',
+                circle_title:'',
                 period:'',
                 source:'',
                 history:'',
                 file:''
             }),
-            disabled:true,
+            disabled:false,
             dialog:false,
             dialogName:'',
             buttonName:'',
@@ -110,6 +115,7 @@ export default{
             this.form.period=item.period
             this.form.source=item.source
             this.form.history=item.history
+            
             this.imgName=''
             this.dialog=true
             this.myItem=item

@@ -13,6 +13,6 @@ class PortfolioController extends Controller
     }
     public function events($id){
          $category=ImageCategory::findOrFail($id);
-         return DB::table('images')->where('category_id',$category->id)->inRandomOrder()->limit(6)->get();
+         return DB::table('images')->where('category_id',$category->id)->orderBy('id','desc')->limit(6)->get();
     }
 }

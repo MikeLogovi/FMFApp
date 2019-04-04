@@ -14,55 +14,46 @@
 							<li  v-for="(socialite,key) in socialites" :key="key"><a target="_blank" :href="socialite.link" class="icon"><i :class='`fab fa-${socialite.social_media}`' ></i></a></li>
 							
 						</ul>
-						&copy;{{website.name}} Corporation-All right reserved.
+						&copy;<span v-if="website">{{website.name}}</span> Corporation-All right reserved.
 					</div>
 				</div>
 </footer>
 
 </template>
 <script>
+import {mapState} from 'vuex'
 export default{
     name:'new-footer',
     components:{},
-    data(){
-       return{
-		  footer:'',
-		  website:'',
-		  socialites:'',
-         
-       }
-        
-    },
-    
- mounted(){
+
+    mounted(){
 	        this.loadSocialMedia()
-            this.loadWebsiteParams()
+           
 			Echo.channel('my-channel').listen('SocialiteEvent',(e)=>{
 				 this.loadSocialMedia()
 			})
-			Echo.channel('my-channel').listen('WebsiteStateChanged',(e)=>{
-				 this.loadWebsiteParams()
-			})
+
 			this.loadFooter()
 			Echo.channel('my-channel').listen('FooterEvent',(e)=>{
 				 this.loadFooter()
 			})
 	   },
+	   computed:{
+       ...mapState([
+		   'website',
+		   'footer',
+		   'socialites'
+	        ])
+	    },
 	   methods:{
 		  loadFooter(){
-			   axios.get('api/footer').then(({data})=>{
-                    this.footer=data 
-			   })
+			  this.$store.dispatch('loadFooter')
+			  
 		   },
-		    loadWebsiteParams(){
-			   axios.get('api/website').then(({data})=>{
-                    this.website=data 
-			   })
-		   },
+		   
 		   loadSocialMedia(){
-            axios.get('/socialite/vue').then(({data})=>{
-             this.socialites=data
-            })
+			this.$store.dispatch('loadSocialitesVue')
+            
        },
 	   }
 }

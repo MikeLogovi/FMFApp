@@ -85,6 +85,12 @@ class WebsiteController extends Controller
         if(!empty($request->quote)){
             $website->quote=$request->quote;
         }
+        if(!empty($request->banner_quote)){
+            $website->banner_quote=$request->banner_quote;
+        }
+        if(!empty($request->about_quote)){
+            $website->about_quote=$request->about_quote;
+        }
         $website->save();
         event(new WebsiteStateChanged);
         return $website;

@@ -120,8 +120,14 @@ Vue.filter('capitalizeIt',function(string){
     return string.charAt(0).toUpperCase() + string.slice(1);
 })
 Vue.filter('yearDate',function(date){
-     var tab=date.split('-');
-     return tab[0];
+    if(date){
+      var tab=date.split('-');
+      return tab[0];
+    }
+    else{
+      return ''
+    }
+    
 })
 global.moment=require('moment')
 window.Form=Form
@@ -192,20 +198,7 @@ router.beforeEach((to, from, next) => {
       next() // make sure to always call next()!
     }
   })
-Vue.component(
-    'passport-clients',
-    require('./components/passport/Clients.vue')
-);
 
-Vue.component(
-    'passport-authorized-clients',
-    require('./components/passport/AuthorizedClients.vue')
-);
-
-Vue.component(
-    'passport-personal-access-tokens',
-    require('./components/passport/PersonalAccessTokens.vue')
-);
 
 
 

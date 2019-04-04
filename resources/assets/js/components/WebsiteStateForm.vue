@@ -28,6 +28,16 @@
                         <textarea v-model="form.quote" class='form-control' id='quote' name='quote' :class="{'is-invalid':form.errors.has('quote')}"></textarea>
                         <has-error :form="form" field="quote"></has-error>
                     </div>
+                     <div class="form-group">
+                        <label for="name">Banner quote</label>
+                        <textarea v-model="form.banner_quote" class='form-control' id='banner_quote' name='banner_quote' :class="{'is-invalid':form.errors.has('banner_quote')}"></textarea>
+                        <has-error :form="form" field="banner_quote"></has-error>
+                    </div>
+                     <div class="form-group">
+                        <label for="name">About quote</label>
+                        <textarea v-model="form.about_quote" class='form-control' id='about_quote' name='about_quote' :class="{'is-invalid':form.errors.has('about_quote')}"></textarea>
+                        <has-error :form="form" field="about_quote"></has-error>
+                    </div>
                     <div class="form-group">
                     <label for="exampleInputFile">Website logo</label>
                     <div class="input-group">
@@ -79,7 +89,9 @@ export default{
             form:new Form({
                 name:'',
                 logo:'',
-                quote:''
+                quote:'',
+                about_quote:'',
+                banner_quote:'',
             }),
             file:'',
             file_error:false,

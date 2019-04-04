@@ -1,9 +1,9 @@
 <template>
- <section class="colorlib-blog" id='blog' v-if="items[0]">
+ <section class="colorlib-blog" id='blog' v-if="posts[0]">
   <container>
-    <h2 class="section-heading text-danger h1-responsive font-weight-bold text-center my-5">Recent posts</h2>
-    <p class="text-center w-responsive mx-auto mb-5">Our company also try it best to publish many blogs and here are some article we try to publishand show you this evenig.We hope you will appreciate them.</p>
-   <div v-for="(item,key) in items" :key="key">
+    <h2 class="section-heading text-danger h1-responsive font-weight-bold text-center my-5" >RECENT POSTS</h2>
+    <p class="text-center w-responsive mx-auto mb-5" style="font-style:italic">Our company also try it best to publish many blogs and here are some article we try to publish and show you this evening.We hope you will appreciate them.</p>
+   <div v-for="(item,key) in posts" :key="key">
      <div v-if="key%2==0">
     <row>
       <div class="col-lg-5">
@@ -14,7 +14,7 @@
         </v-hover>
       </div>
       <div class="col-lg-7">
-        <h3 class="font-weight-bold mb-3 p-0 red-text">
+        <h3 class="font-weight-bold mb-3 p-0 red-text titleit">
           <strong>{{item.title}}</strong>
         </h3>
         <p>{{item.description}}</p>
@@ -31,7 +31,7 @@
     <row>
       <div class='col-lg-7'>
       
-        <h3 class="font-weight-bold mb-3 p-0 red-text">
+        <h3 class="font-weight-bold mb-3 p-0 red-text titleit">
           <strong>{{item.title}}</strong>
         </h3>
         <p>{{item.description}}</p>
@@ -44,7 +44,7 @@
       <div class="col-lg-5">
         <v-hover>
               <v-card slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`"  class="mx-auto" width="344">
-                <v-img :aspect-ratio="16/9" src="/slide/img/slide2.jpg"></v-img>
+                <v-img :aspect-ratio="16/9" :src="item.attached_image"></v-img>
               </v-card>
         </v-hover>
       </div>
@@ -58,7 +58,7 @@
 
 <script>
 import { Container, Row, Card, CardBody, mdbMask, mdbIcon,  Btn } from 'mdbvue';
-
+import {mapState} from 'vuex'
 export default {
   name: 'BlogPage',
   components: {
@@ -72,34 +72,33 @@ export default {
     
     Btn
   },
-   data(){
-           return{
-               items:{
-
-			           }
-           }
-	   },
+  
 	   mounted(){
 			this.loadPosts()
 			Echo.channel('my-channel').listen('PostEvent',(e)=>{
 				 this.loadPosts()
 				
 			})
-	   },
+     },
+     computed:{
+       ...mapState([
+         'posts'
+       ])
+     },
 	   methods:{
 		   loadPosts(){
-			   axios.get('/post/vue').then(({data})=>{
-                    this.items=data 
-			   })
+         this.$store.dispatch('loadPosts')
+			   
 		   }
 	   }
 };
 </script>
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Raleway:700&subset=latin-ext');
 .colorlib-blog{
   padding: 2em 0;
   clear: both;
-  background-color:rgba(250,250,250,0.5) 
+   background-color:#FFB779
 }
 
   .article-entry .blog-img {
@@ -157,5 +156,9 @@ section h2.section-heading {
   font-size: 40px;
   margin-top: 0;
   margin-bottom: 25px;
+  font-family: 'Raleway', sans-serif;
+}
+.titleit{
+   font-family: 'Raleway', sans-serif;
 }
 </style>

@@ -22,7 +22,7 @@
               <div class="single-icon">
                 <i class="fas fa-phone _icon"></i>
                 <p>
-                  Call: {{item.phone_number}}<br>
+                  Call: {{contact.phone_number}}<br>
                   
                 </p>
               </div>
@@ -34,7 +34,7 @@
               <div class="single-icon">
                 <i class="fas fa-envelope _icon"></i>
                 <p>
-                  Email: {{item.email}}<br>
+                  Email: {{contact.email}}<br>
                 </p>
               </div>
             </div>
@@ -45,7 +45,7 @@
               <div class="single-icon">
                 <i class="fas fa-map-marker-alt _icon"></i>
                 <p>
-                 Adress:{{item.localisation}} <br>
+                 Adress:{{contact.localisation}} <br>
                 </p>
               </div>
             </div>
@@ -94,11 +94,11 @@
      
 </template>
 <script>
-import NavBar from './NavBar'
-  import FooterBar from './FooterBar'
+
+import {mapState} from 'vuex'
 export default {
     name:'contact',
-     components:{NavBar,FooterBar},
+     
      data(){
        return{
           form:new Form({
@@ -118,12 +118,15 @@ export default {
          this.loadContact()
       })
      },
+     computed:{
+       ...mapState([
+         'contact'
+       ])
+     },
      methods:{
        loadContact(){
-            axios.get('api/contact').then(({data})=>{
-                console.log(data)
-               this.item=data
-            })
+         this.$store.dispatch('loadContact')
+           
         },
         sendMail(){
            this.form.post('/sendmail',this.form).then(()=>{

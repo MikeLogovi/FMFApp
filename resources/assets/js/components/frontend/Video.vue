@@ -35,14 +35,14 @@
                          <video 
                          controls
                          preload="auto"
-     
+                         class="my-videos"
                          data-setup='{}' width="200" height="200" >
                             <source :src="item.source" type="video/mp4">
                             <source :src="item.source" type="video/ogg">
                         </video>
-                       <modal :name="`modal${item.id}`" heigth="auto">
-                         <div  class="embed-responsive embed-responsive-16by9">
-                            <video autoplay class="embed-responsive-item" 
+                       <modal style="z-index:10000000000" :name="`modal${item.id}`" heigth="auto">
+                         <div   class="embed-responsive embed-responsive-16by9">
+                            <video autoplay class=" embed-responsive-item" 
                                 controls
                                 preload="auto"
             
@@ -58,7 +58,7 @@
                      </div>
                      <div v-else-if="item.link">
                        <iframe width="200" height="200" :src="`${item.link}?autoplay=0`" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        <modal :name="`modal${item.id}`"  height="auto">
+                        <modal style="z-index:10000000000" :name="`modal${item.id}`"  height="auto">
                           <div class="embed-responsive embed-responsive-16by9">
                             <iframe  class="embed-responsive-item"  :src="`${item.link}`" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                           </div>
@@ -98,10 +98,10 @@
 <script>
 import TopBar from './TopBar'
 import NewFooter from './NewFooter'
-import MagnificPopupModal from './MagnificPopupModal'
+
 
  export default {
-   components:{TopBar,NewFooter, MagnificPopupModal},
+   components:{TopBar,NewFooter},
 
 
     data () {
@@ -117,10 +117,8 @@ import MagnificPopupModal from './MagnificPopupModal'
     mounted(){
           
           this.loadVideos()
-          console.log("My ref .."+this.$refs.description)
           Echo.channel('my-channel').listen('VideoEvent',(e)=>{
             this.loadVideos()
-            console.log('my website loged')
           })
         
     },
@@ -143,20 +141,13 @@ import MagnificPopupModal from './MagnificPopupModal'
           search(){
             setTimeout(()=>{
                  axios.get('/videos/search?query='+this.query).then(({data})=>{
-                    
                      this.items=data
-                     
                   })
             },500)
              
-          }
-                 
-          
-            
-          
+          }      
     }
-   
-  }
+ }
 </script>
 
 <style>
@@ -174,11 +165,11 @@ import MagnificPopupModal from './MagnificPopupModal'
     height:150px;
 }
 
-.mList:hover{
+/*.mList:hover{
     opacity:0.7;
     background-color:#E0E0E0;
-
-}
+    z-index:-2;
+}*/
 .description{
     margin-left:1.5em;
     margin-top:1.5em;
@@ -187,12 +178,11 @@ import MagnificPopupModal from './MagnificPopupModal'
   font-size:18px;
   font-weight: bold;
   color:#fff;
-
 }
 @media only screen and (min-width: 20px) and (max-width: 767px) {
   .description{
     margin-left:4.8em;
     margin-top:2.5em;
-}
+  }
 }
 </style>

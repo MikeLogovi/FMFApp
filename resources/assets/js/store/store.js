@@ -6,6 +6,14 @@ export const store=new Vuex.Store({
     state:{
         user:{},
         website:{},
+        histories:{},
+        imageCategories:{},
+        portfolio:{},
+        posts:{},
+        comments:{},
+        contact:{},
+        footer:{},
+        socialites:{},
         dashboard:{
             histories:null,
             comments:null,
@@ -21,7 +29,35 @@ export const store=new Vuex.Store({
         },
         token:localStorage.getItem('access_token')||null,
     },
+   
     mutations:{
+        loadFooter(state,data){
+           state.footer=data
+        },
+        loadSocialitesVue(state,data){
+           state.socialites=data
+        },
+        loadContact(state,data){
+            state.contact=data
+        },
+        loadCommentsVue(state,data){
+            state.comments=data
+        },
+        loadPosts(state,data){
+            state.posts=data
+        },
+        loadPortfolio(state,data){
+          state.portfolio=data
+        },
+        loadSpecificImages(state,data){
+          state.portfolio=data
+        },
+        loadImageCategories(state,data){
+            state.imageCategories=data
+        },
+        loadHistoriesVue(state,data){
+            state.histories=data
+        },
         loadHistories(state,data){
             state.dashboard.histories=data
         },
@@ -31,7 +67,7 @@ export const store=new Vuex.Store({
         loadUser(state,data){
             state.user=data
         },
-        loadWebsite(state,data){
+        loadWebsiteParams(state,data){
             state.website=data
         },
         retrieveToken(state,token){
@@ -47,6 +83,41 @@ export const store=new Vuex.Store({
        }
     },
     actions:{
+        loadSocialitesVue(context){
+            axios.get('/socialite/vue').then(({data})=>{
+                context.commit('loadSocialitesVue',data) 
+            })
+        },
+        loadFooter(context){
+            axios.get('api/footer').then(({data})=>{
+                context.commit('loadFooter',data) 
+           })
+        },
+        loadContact(context){
+            axios.get('api/contact').then(({data})=>{
+                context.commit('loadContact',data)
+             })
+        },
+        loadCommentsVue(context){
+            axios.get('/comment/vue').then(({data})=>{
+                context.commit('loadCommentsVue',data)
+            })
+        },
+        loadPosts(context){
+            axios.get('/post/vue').then(({data})=>{
+                context.commit('loadPosts',data)
+           })
+        },
+        loadSpecificImages(context,id){
+            axios.get('/portfolio/'+id).then(({data})=>{
+                context.commit('loadSpecificImages',data)
+           })
+        },
+        loadPortfolio(state,data){
+            axios.get('/portfolio/random').then(({data})=>{
+               context.commit('loadPortfolio',data)
+           })
+        },
         loadHistories(context){
             if(context.getters.loggedIn){
 
@@ -61,6 +132,17 @@ export const store=new Vuex.Store({
                      })
                   })
             }
+        },
+        
+        loadImageCategories(context){
+            axios.get('api/imageCategory').then(({data})=>{
+                context.commit('loadImageCategories',data)           
+           })
+        },
+        loadHistoriesVue(context){
+             axios.get('/about/vue').then(({data})=>{
+                  context.commit('loadHistoriesVue',data)
+             })
         },
         retrieveToken(context,form){
             return new Promise((resolve,reject)=>{
@@ -105,10 +187,11 @@ export const store=new Vuex.Store({
                       
             })
         },
-        loadWebsite(context){
+      
+        loadWebsiteParams(context){
             return new Promise((resolve,reject)=>{
                       axios.get('api/website').then(({data})=>{
-                           context.commit('loadWebsite',data)
+                           context.commit('loadWebsiteParams',data)
                            resolve(data)
                       })
                       

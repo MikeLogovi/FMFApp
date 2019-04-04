@@ -27,7 +27,22 @@
                 {{item.quote}} 
             </h4>
         </v-flex>
+       
        </v-layout> 
+       <v-layout>
+           <v-flex xs6>
+            <h2  class='text-center text-info'>Banner quote</h2>
+            <h4 class='text-center' style='margin-right:1.5em'>
+                {{item.banner_quote}} 
+            </h4>
+        </v-flex>
+        <v-flex xs6>
+            <h2  class='text-center text-info'>About quote</h2>
+            <h4 class='text-center' style='margin-right:1.5em'>
+                {{item.about_quote}} 
+            </h4>
+        </v-flex>
+       </v-layout>
 
   
 </div>
@@ -55,6 +70,7 @@ export default{
             name:'',
             file:'',
             logo:'',
+    
            }),
            file:null,
         logoName:'',

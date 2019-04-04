@@ -16,6 +16,7 @@
                 <tr>
                   <th>Reference image</th>
                   <th>Title</th>
+                  <th>Circle title</th>
                   <th>Period</th>
                   <th>History</th>
                   <th>Actions</th>
@@ -23,9 +24,10 @@
                 </thead>
                 <tbody id ='tbody' v-for="(item,key) in items.data" :key="key" >
                   <tr class='tr_table'>
-                   <td><a :href='`/public${item.source}`' class='pop'><img style="width:75px; height:75px" :src="`${item.source}`"/></a></td>
+                   <td><a v-if="item.source" :href='`/public${item.source}`' class='pop'><img style="width:75px; height:75px" :src="`${item.source}`"/></a></td>
                    <td>{{item.title}}</td>
-                   <td>{{item.period|yearDate}}</td>
+                   <td>{{item.circle_title}}</td>
+                   <td><div v-if="item.period">{{item.period|yearDate}}</div></td>
                    <td>{{item.history}}</td>
             
                    <td>

@@ -39,9 +39,14 @@ class AboutController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,['file'=>'required','title'=>'required:unique:abouts','period'=>'required','history'=>'required']);
-        $filename=file_upload($request->file,'/about/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
-        $about= About::create(['title'=>$request->title,'period'=>$request->period,'source'=>'/about/'.$filename,'history'=>$request->history]);
+        $this->validate($request,['title'=>'required|unique:abouts','circle_title'=>'required|unique:abouts','history'=>'required']);
+        if(!empty($request->file)){
+            $filename=file_upload($request->file,'/about/',['jpg','JPG','JPEG','PNG','png','GIF','gif']);
+            $about= About::create(['title'=>$request->title,'circle_title'=>$request->circle_title,'period'=>$request->period,'source'=>'/about/'.$filename,'history'=>$request->history]);
+        }
+        else{
+            $about= About::create(['title'=>$request->title,'circle_title'=>$request->circle_title,'period'=>$request->period,'history'=>$request->history]);
+        }
         event(new AboutEvent);
         return $about;
     }
@@ -88,6 +93,10 @@ class AboutController extends Controller
         if(!empty($request->title)){
             $this->validate($request,['title'=>'unique:abouts']);
             $about->title=$request->title;
+        }
+        if(!empty($request->circle_title)){
+            $this->validate($request,['circle_title'=>'unique:abouts']);
+            $about->circle_title=$request->circle_title;
         }
         if(!empty($request->period)){
             $about->period=$request->period;

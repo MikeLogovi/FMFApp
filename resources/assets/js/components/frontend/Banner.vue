@@ -1,10 +1,13 @@
 <template>
-  <div class="home" id='banner'>
-		<div class="home_background" ></div>
+  <div class="row home" id='banner'>
+		<img src='/website/logo/logo.png' alt='logo' class='img img-responsive myLogo' />
+		<div class="container home_background" ></div>
 		<div class="home_content">
 			<div class="home_content_inner">
-				<div class="home_text_large">Welcome</div>
-				<div class="home_text_small"><img src='/website/logo/logo.png' alt='logo' class='img img-responsive myLogo' /></div>
+				<div class="pa">
+				   <h1 class="h1-responsive home_text_large" v-if="website.banner_quote">"{{website.banner_quote}}"</h1>
+			 </div>
+				<div class="home_text_small"></div>
 			</div>
         <div  class="arrow bounce"><a href='#' ><v-icon size="30px" color="white">fa fa-chevron-circle-down</v-icon></a></div>
 
@@ -13,41 +16,46 @@
 
 </template>
 <script>
+import {mapState} from 'vuex'
    export default{
        name:'banner',
        components:{},
-       data(){
-           return{
-               item:{
-
-			   }
-           }
-	   },
-	   mounted(){
-			this.loadWebsiteParams()
-			Echo.channel('my-channel').listen('WebsiteStateChanged',(e)=>{
-				 this.loadWebsiteParams()
-				
-			})
-	   },
+       mounted(){
+					this.loadWebsiteParams()
+					Echo.channel('my-channel').listen('WebsiteStateChanged',(e)=>{
+						this.loadWebsiteParams()
+						
+					})
+		  },
+		 computed:{
+        ...mapState([
+					'website'
+				])
+		 },
 	   methods:{
 		   loadWebsiteParams(){
-			   axios.get('api/website').then(({data})=>{
-                    this.item=data 
-			   })
+				 this.$store.dispatch('loadWebsiteParams')
 		   }
 	   }
    }
 </script>
 <style scoped>
 .myLogo{
-	width:500px;
-	height:500px;
+	position:absolute;
+	top:25px;
+	left:25px;
+	width:250px;
+	height:250px;
 }
 .home
-{
-	width: 100%;
+{ 
+	width: auto;
 	height: 100vh;
+	background-image: url('/banner/banner.jpg');
+	background-size: cover;
+	background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 .home_background
 {
@@ -56,7 +64,8 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color:#E74C3C;
+	
+	/*background-color:#E74C3C;*/
 }
 .home_content
 {
@@ -73,28 +82,23 @@
 }
 .home_text_large
 {
-	font-size: 215px;
+	font-size: 50px;
 	font-weight: 900;
-	color: #fdaa27;
-	opacity: 0.34;
+	color: #fff;
 	text-transform: uppercase;
 	line-height: 0.75;
 }
-.home_text_small
-{
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	-webkit-transform: translate(-50%, -50%);
-	-moz-transform: translate(-50%, -50%);
-	-ms-transform: translate(-50%, -50%);
-	-o-transform: translate(-50%, -50%);
-	transform: translate(-50%, -50%);
-	width: 100%;
-	font-size: 72px;
-	font-weight: 400;
-	color: #FFFFFF;
-	text-shadow: 0px 11px 51px rgba(0,0,0,0.35);
+.pa:after{
+	position:absolute;
+	text-align: center;
+    content: "";
+    width: 75%;
+    height: 2px;
+    bottom: 0;
+		left:130px;
+    background: #fff;
+     
+
 }
 @-webkit-keyframes bounce{
   0%,20%,60%{
@@ -256,10 +260,10 @@
 	{
 		width: 100%;
 	}
-	.home_text_large
+/*	.home_text_large
 	{
 		font-size: 125px;
-	}
+	}*/
 	.home_text_small
 	{
 		font-size: 42px;
@@ -399,11 +403,11 @@
 		width: 100vw;
 		height: 100vh;
 	}
-	.home_text_large
+	/*.home_text_large
 	{
 		font-size: 88px;
 		
-	}
+	}*/
 	.home_text_small
 	{  margin-right:2em;
 		font-size: 36px;
@@ -554,10 +558,10 @@
 	{
 		max-width: 50%;
 	}
-	.home_text_large
+	/*.home_text_large
 	{
 		font-size: 64px;
-	}
+	}*/
 	.home_text_small
 	{
 		font-size: 24px;

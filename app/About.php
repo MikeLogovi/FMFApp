@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class About extends Model
 {
-   public $fillable=['title','source','period','history'];
+   public $fillable=['title','circle_title','source','period','history'];
 }

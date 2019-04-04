@@ -10,13 +10,13 @@
          <div class='row text-center'>
            <div class='btnRow'>
                 <button @click="loadRandomImages" class='btn red lighten-1'>Random events</button>
-                <button @click="loadSpecificImages(category.id)" v-for="(category,key) in categories" :key="key" class='btn red lighten-1'>{{category.name}}</button>
+                <button @click="loadSpecificImages(category.id)" v-for="(category,key) in imageCategories" :key="key" class='btn red lighten-1'>{{category.name}}</button>
            </div>
         </div>
         <div>
         <div class="row" v-viewer="{movable: false}">
          
-              <div v-for="(item,key) in items" :key="key" class="col-md-4 col-sm-6 portfolio-item" >
+              <div v-for="(item,key) in portfolio" :key="key" class="col-md-4 col-sm-6 portfolio-item" >
                 <a class="pop portfolio-link"  :href="item.source">
                   <div class="portfolio-hover">
                     
@@ -39,27 +39,19 @@
 
 </template>
 <script>
+  import {mapState} from 'vuex'
    export default{
       name:'portfolio',
       components:{},
      data(){
        
         return{
-           items:{},
-           categories:{},
+ 
            isRandomButton:true,
         }
 	   },
 	   mounted(){
-       this.$nextTick(()=>{
-          $('.pop').magnificPopup({
-                    type: 'image',
-                    gallery: {
-                      enabled: true
-                    },
-                    mainClass: 'mfp-with-zoom'
-              });
-          })
+  
 			this.loadRandomImages()
       this.loadCategories()
 			Echo.channel('my-channel').listen('ImageEvent',(e)=>{
@@ -68,31 +60,26 @@
          }
          
 			})
-	   },
+     },
+     computed:{
+       ...mapState([
+          'imageCategories',
+          'portfolio'
+       ])
+     },
 	   methods:{
 		   loadRandomImages(){
-         
-			   axios.get('/portfolio/random').then(({data})=>{
-                    this.items=data
-                    this.isRandomButton=true 
-			   })
-         
-		   },
+         this.$store.dispatch('loadPortfolio')
+       },
        loadCategories(){
-          axios.get('api/imageCategory').then(({data})=>{
-                    this.categories=data.data
-                    console.log('My data'+data)
-			   })
+         this.$store.dispatch('loadImageCategories')
        },
         show () {
           const viewer = this.$el.querySelector('.images').$viewer
           viewer.show()
         },
        loadSpecificImages(id){
-           axios.get('/portfolio/'+id).then(({data})=>{
-                    this.items=data
-                    this.isRandomButton=false 
-			   })
+          this.$store.dispatch('loadSpecificImages',id)
        }
 	   }
    }

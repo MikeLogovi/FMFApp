@@ -1,48 +1,48 @@
 <template>
- <section id="about">
+ <section id="about" style="z-index:-1;">
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h2 class="text-danger h1-responsive font-weight-bold text-center my-5">About Us</h2>
-           
+            <h2 class="section-head text-danger h1-responsive font-weight-bold text-center my-5">OUR STORY</h2>
+            <a href=""
           </div>
         </div>
         <div class="row">
           <div class="col-lg-12">
             <ul class="timeline">
-              <li v-if="key%2==0"   v-for="(item,key) in items" :key="key">
-                <div class="timeline-image">
-                  <img class="rounded-circle img-fluid" style='width:100%;height:100%'  :src="item.source" alt="">
+              <li v-if="key%2==0"   v-for="(item,key) in histories" :key="key">
+                <div class="timeline-image" style='background-color:#FF8100'>
+                   <img class="rounded-circle img-fluid" style='width:100%;height:100%'  :src="item.source" alt="" v-if="item.source">
+                   <h4 class="circle_titleit" v-else-if="item.circle_title">{{item.circle_title}}</h4>
                 </div>
                 <div class="timeline-panel">
                   <div class="timeline-heading">
-                    <h4>{{item.period|yearDate}}</h4>
+                    <h4 v-if="item.period">{{item.period|yearDate}}</h4>
                     <h4 class="subheading text-danger">{{item.title}}</h4>
                   </div>
-                  <div class="timeline-body">
-                    <p>{{item.history}}</p>
+                  <div class="timeline-body history">
+                    <p><strong>{{item.history}}</strong></p>
                   </div>
                 </div>
               </li>
               <li class="timeline-inverted" v-else>
-                <div class="timeline-image">
-                  <img class="rounded-circle img-fluid" style='width:100%;height:100%' :src="item.source" alt="">
+                <div class="timeline-image" style='background-color:#FF8100'>
+                  <img class="rounded-circle img-fluid" style='width:100%;height:100%'  :src="item.source" alt="" v-if="item.source">
+                   <h4 class="circle_titleit" v-else-if="item.circle_title">{{item.circle_title}}</h4>
                 </div>
                 <div class="timeline-panel">
                   <div class="timeline-heading">
                     <h4>{{item.period|yearDate}}</h4>
                     <h4 class="subheading text-danger">{{item.title}}</h4>
                   </div>
-                  <div class="timeline-body" >
-                    <p>{{item.history}}</p>
+                  <div class="timeline-body history" >
+                    <p><strong>{{item.history}}</strong></p>
                   </div>
                 </div>
               </li> 
               <li class="timeline-inverted" >
-                <div class="timeline-image" style='background-color:#E74C3C'>
-                  <h4>Come and
-                    <br>Build with us our
-                    <br>Story!</h4>
+                <div class="timeline-image " style='background-color:#E74C3C'>
+                  <h4 class="circle_titleit" v-if="website.about_quote">{{website.about_quote}}</h4>
                 </div>
               </li>
             </ul>
@@ -52,6 +52,7 @@
     </section>
 </template>
 <script>
+import {mapState} from 'vuex'
   export default{
      name:'about',
      components:{},
@@ -66,36 +67,45 @@
 			this.loadHistories()
 			Echo.channel('my-channel').listen('AboutEvent',(e)=>{
 				 this.loadHistories()
-				 console.log('my about')
+				 
 			})
-	   },
+     },
+     computed:{
+         ...mapState([
+           'website',
+           'histories'
+         ])
+     },
 	   methods:{
 		   loadHistories(){
-			   axios.get('/about/vue').then(({data})=>{
-                    this.items=data
-                    console.log("about "+this.items)
-                     
-			   }).catch(()=>{
-           console.log("No data")
-         })
+         this.$store.dispatch('loadHistoriesVue')
 		   }
 	   }
   }
 </script>
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Raleway:500');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab:400,700');
+.section-head{
+  font-family:'Roboto Slab',serif;
+  font-weight:bold;
+}
 section h2.section-heading {
   font-size: 40px;
   margin-top: 0;
   margin-bottom: 15px;
 }
-
-section h3.section-subheading {
-  font-size: 16px;
-  font-weight: 400;
-  font-style: italic;
-  margin-bottom: 75px;
-  text-transform: none;
-  font-family: 'Droid Serif', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+.circle_titleit{
+  font-family:'Roboto Slab',serif;
+  font-weight:400;
+}
+.subheading{
+  font-family:'Raleway',serif;
+  font-weight:500;
+}
+.history{
+  font-family:'Raleway',serif;
+  
 }
 .timeline {
   position: relative;

@@ -4,10 +4,10 @@
 
     <nav class="navbar navbar-expand-lg navbar-light ftco_navbar  ftco-navbar-light" id='thisNav' >
 	    <div class="container">
-	      <a class="navbar-brand" href="#" @click.prevent='scrolling("#banner")'><img :src='item.logo' style='width:100px;height:75px;'/></a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
+         <a href="#" class="navbar-brand"><img style="width: 100px; height: 75px;" :src="website.logo"></a>
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto" >
@@ -36,6 +36,7 @@
 
 <script>
 import {BtnGroup,Btn} from 'mdbvue'
+import {mapState} from 'vuex'
 export default {
    name:'nav-bar',
    props:['isHomeComponent'],
@@ -46,11 +47,12 @@ export default {
       }
    },
    mounted(){
-       this.loadWebsiteParams()
-       Echo.channel('my-channel').listen('WebsiteStateChanged',(e)=>{
-				 this.loadWebsiteParams()
-				
-			})
+     
+   },
+   computed:{
+       ...mapState([
+         'website'
+       ])
    },
    created(){
    
@@ -60,11 +62,7 @@ export default {
    })
    },
    methods:{
-    loadWebsiteParams(){
-			   axios.get('api/website').then(({data})=>{
-                    this.item=data 
-			   })
-		   },
+   
    init(){
         this.$nextTick(_=>{
               	$(window).on('scroll',function(){
@@ -130,8 +128,7 @@ export default {
 
 <style>
 .navbar {
- 
-  position: relative;
+ position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -204,7 +201,7 @@ export default {
   align-items: center; }
 
 .navbar-toggler {
-  padding: 0.25rem 0.75rem;
+  padding:0.1rem 0.1rem;
   font-size: 1.25rem;
   line-height: 1;
   background-color: transparent;
@@ -504,8 +501,8 @@ export default {
       padding-bottom: 10px; } }
   .ftco-navbar-light .navbar-nav > .nav-item > .nav-link {
     font-size: 14px;
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+    padding-top: 0.01rem;
+    padding-bottom: 0.01rem;
     padding-left: 20px;
     padding-right: 20px;
     font-weight: 400;
@@ -544,8 +541,8 @@ export default {
     .ftco-navbar-light .navbar-nav > .nav-item.ftco-seperator:before {
       position: absolute;
       content: "";
-      top: 10px;
-      bottom: 10px;
+      top: 5px;
+      bottom: 5px;
       left: 0;
       width: 2px;
       background: rgba(255, 255, 255, 0.05); }
@@ -618,8 +615,8 @@ export default {
       font-size: 16px;
       letter-spacing: .1em; }
     .ftco-navbar-light.scrolled .nav-link {
-      padding-top: 0.9rem !important;
-      padding-bottom: 0.9rem !important;
+      padding-top: 0.4rem !important;
+      padding-bottom: 0.4rem !important;
       color: #000000 !important; }
       .ftco-navbar-light.scrolled .nav-link.active {
         color: #f1b8c4 !important; }
@@ -642,4 +639,3 @@ export default {
   letter-spacing: 2px; }
 
 </style>
-
