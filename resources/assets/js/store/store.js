@@ -6,6 +6,7 @@ export const store=new Vuex.Store({
     state:{
         user:{},
         website:{},
+        sliders:{},
         histories:{},
         imageCategories:{},
         portfolio:{},
@@ -31,6 +32,9 @@ export const store=new Vuex.Store({
     },
    
     mutations:{
+        loadSlidersVue(state,data){
+           state.sliders=data
+        },
         loadFooter(state,data){
            state.footer=data
         },
@@ -53,7 +57,8 @@ export const store=new Vuex.Store({
           state.portfolio=data
         },
         loadImageCategories(state,data){
-            state.imageCategories=data
+            state.imageCategories=data.data
+            
         },
         loadHistoriesVue(state,data){
             state.histories=data
@@ -80,9 +85,21 @@ export const store=new Vuex.Store({
     getters:{
        loggedIn(state){
            return state.token!=null
+       },
+       loadPostInformations(state){
+           return (id)=>{
+               return state.posts.find((post)=>{
+                   return post.id==id
+               })
+           }
        }
     },
     actions:{
+        loadSlidersVue(context){
+            axios.get('/slider/vue').then(({data})=>{
+                context.commit('loadSlidersVue',data)
+           })
+        },
         loadSocialitesVue(context){
             axios.get('/socialite/vue').then(({data})=>{
                 context.commit('loadSocialitesVue',data) 
@@ -113,7 +130,7 @@ export const store=new Vuex.Store({
                 context.commit('loadSpecificImages',data)
            })
         },
-        loadPortfolio(state,data){
+        loadPortfolio(context){
             axios.get('/portfolio/random').then(({data})=>{
                context.commit('loadPortfolio',data)
            })
@@ -136,7 +153,8 @@ export const store=new Vuex.Store({
         
         loadImageCategories(context){
             axios.get('api/imageCategory').then(({data})=>{
-                context.commit('loadImageCategories',data)           
+                context.commit('loadImageCategories',data)     
+                  
            })
         },
         loadHistoriesVue(context){

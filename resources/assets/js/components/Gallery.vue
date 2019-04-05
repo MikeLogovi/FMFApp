@@ -30,7 +30,7 @@
                    <td>{{item.updated_at|myDate}}</td>
                    <td>
                        <div class="col-xs-12">
-                           <a :href="item.source"  class="pop btn btn-success">See</a> 
+                          
                            <a href="#" @click.prevent="updateImage(item)">
                                <i style="color:warning" class='fa fa-edit'></i>
                             </a>

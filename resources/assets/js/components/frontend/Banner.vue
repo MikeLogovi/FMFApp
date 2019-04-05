@@ -1,17 +1,19 @@
 <template>
   <div class="row home" id='banner'>
-		<img src='/website/logo/logo.png' alt='logo' class='img img-responsive myLogo' />
+		<img :src='website.logo' alt='logo' class='img img-responsive myLogo' />
 		<div class="container home_background" ></div>
 		<div class="home_content">
 			<div class="home_content_inner">
 				<div class="pa">
 				   <h1 class="h1-responsive home_text_large" v-if="website.banner_quote">"{{website.banner_quote}}"</h1>
 			 </div>
-				<div class="home_text_small"></div>
+			
 			</div>
-        <div  class="arrow bounce"><a href='#' ><v-icon size="30px" color="white">fa fa-chevron-circle-down</v-icon></a></div>
-
+      
 		</div>
+			<div class="home_text_welcome"><h1 class="h1-responsive  display-1 font-weight-bold text-center my-5">WELCOME</h1></div>
+		 <div  class="arrow bounce text-center"><a href='#' ><v-icon size="30px" color="white">fa fa-chevron-circle-down</v-icon></a></div>
+
 	</div>
 
 </template>
@@ -40,12 +42,14 @@ import {mapState} from 'vuex'
    }
 </script>
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Raleway:500');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab:400,700');
 .myLogo{
 	position:absolute;
-	top:25px;
-	left:25px;
-	width:250px;
-	height:250px;
+	top:85px;
+	left:75px;
+	width:75px;
+	height:50px;
 }
 .home
 { 
@@ -81,21 +85,31 @@ import {mapState} from 'vuex'
 	text-align: center;
 }
 .home_text_large
-{
+{ 
+	font-family:'Raleway',serif;
 	font-size: 50px;
-	font-weight: 900;
+	font-weight: 400;
 	color: #fff;
 	text-transform: uppercase;
 	line-height: 0.75;
+	margin-bottom:0.5em;
+}
+.home_text_welcome{
+	position:absolute;
+	font-weight:bold;
+	font-family:'Roboto Slab',serif;
+	left:45%;
+	bottom:20%;
+	color:yellow;
 }
 .pa:after{
 	position:absolute;
 	text-align: center;
     content: "";
-    width: 75%;
+    width: 70%;
     height: 2px;
     bottom: 0;
-		left:130px;
+		left:15%;
     background: #fff;
      
 
@@ -122,9 +136,9 @@ import {mapState} from 'vuex'
   
 }
 .bounce{
-  margin:0 auto;
-  
-
+  position: absolute;
+	left:50%;
+	bottom:10%;
   animation:bounce 2s infinite;
   z-index:2;
 }
@@ -379,7 +393,25 @@ import {mapState} from 'vuex'
 
 @media only screen and (max-width: 880px)
 {
-	
+		.home_text_large{
+		font-size:30px;
+		margin-bottom:2.3em;
+	}
+	.bounce{
+		bottom:5%;
+		left:48%
+	}
+	.pa:after{
+    width:50%;
+		left:25%;
+		margin-bottom:2em;
+		
+	}
+	.home_text_welcome{
+    font-size:20px;
+		left:40%;
+	  bottom:15%;
+	}
 }
 
 /************
@@ -388,7 +420,25 @@ import {mapState} from 'vuex'
 
 @media only screen and (max-width: 768px)
 {
-	
+		.home_text_large{
+		font-size:30px;
+		margin-bottom:2.3em;
+	}
+	.bounce{
+		bottom:5%;
+		left:48%
+	}
+	.pa:after{
+    width:50%;
+		left:25%;
+		margin-bottom:2em;
+		
+	}
+	.home_text_welcome{
+    font-size:20px;
+		left:40%;
+	  bottom:15%;
+	}
 }
 
 /************
@@ -396,7 +446,25 @@ import {mapState} from 'vuex'
 ************/
 
 @media only screen and (max-width: 767px)
-{
+{ 	.home_text_large{
+		font-size:30px;
+		margin-bottom:2.3em;
+	}
+	.bounce{
+		bottom:5%;
+		left:48%
+	}
+	.pa:after{
+    width:50%;
+		left:25%;
+		margin-bottom:2em;
+		
+	}
+	.home_text_welcome{
+    font-size:20px;
+		left:40%;
+	  bottom:15%;
+	}
 	.menu_container
 	{
 		right: -100vw;
@@ -475,12 +543,31 @@ import {mapState} from 'vuex'
 
 @media only screen and (max-width: 575px)
 { 
-   .myLogo{
-		width:375px;
-		height:375px;
-		margin-bottom:1em;
-		margin-left:0.75em;
-    }
+	 	.home_text_large{
+		font-size:30px;
+		margin-bottom:2.3em;
+	}
+	.bounce{
+		bottom:5%;
+		left:48%
+	}
+	.pa:after{
+    width:50%;
+		left:25%;
+		margin-bottom:2em;
+		
+	}
+	.home_text_welcome{
+    font-size:20px;
+		left:40%;
+	  bottom:15%;
+	}
+  .myLogo{
+		top:55px;
+		left:40px;
+		width:70px;
+		height:55px;
+  }
 	h2{font-size: 24px;}
 	.header_container
 	{
@@ -715,13 +802,25 @@ import {mapState} from 'vuex'
 
 @media only screen and (max-width: 539px)
 {
-	 .myLogo{
-		 margin-top:1.5em;
-		width:375px;
-		height:375px;
-		margin-bottom:1em;
-		margin-left:0.75em;
-		}
+	 	.home_text_large{
+		font-size:30px;
+		margin-bottom:2.3em;
+	}
+	.bounce{
+		bottom:5%;
+		left:48%
+	}
+	.pa:after{
+    width:50%;
+		left:25%;
+		margin-bottom:2em;
+		
+	}
+	.home_text_welcome{
+    font-size:20px;
+		left:35%;
+	  bottom:15%;
+	}
 		 .arrow{
 	     margin-top:12em;
      }
@@ -733,13 +832,31 @@ import {mapState} from 'vuex'
 ************/
 
 @media only screen and (max-width: 480px)
-{
- .myLogo{
-		width:360px;
-		height:360px;
-		margin-bottom:1em;
-		margin-left:0.75em;
-    }
+{ 	.home_text_large{
+		font-size:30px;
+		margin-bottom:2.3em;
+	}
+	.bounce{
+		bottom:5%;
+		left:48%
+	}
+	.pa:after{
+    width:50%;
+		left:25%;
+		margin-bottom:2em;
+		
+	}
+	.home_text_welcome{
+    font-size:20px;
+		left:35%;
+	  bottom:15%;
+	}
+	.myLogo{
+		top:45px;
+		left:35px;
+		width:65px;
+		height:45px;
+  }
 }
 
 /************
@@ -748,12 +865,31 @@ import {mapState} from 'vuex'
 
 @media only screen and (max-width: 479px)
 {
+		.home_text_large{
+		font-size:30px;
+		margin-bottom:2.3em;
+	}
+	.bounce{
+		bottom:5%;
+		left:48%
+	}
+	.pa:after{
+    width:50%;
+		left:25%;
+		margin-bottom:2em;
+		
+	}
+	.home_text_welcome{
+    font-size:20px;
+		left:35%;
+	  bottom:15%;
+	}
 	.myLogo{
-		width:360px;
-		height:360px;
-		margin-bottom:1em;
-		margin-left:0.75em;
-    }
+		top:45px;
+		left:35px;
+		width:65px;
+		height:45px;
+  }
 }
 
 /************
@@ -762,66 +898,197 @@ import {mapState} from 'vuex'
 
 @media only screen and (max-width: 400px)
 {
-	.myLogo{
-		width:360px;
-		height:360px;
+		.home_text_large{
+		font-size:20px;
+		margin-bottom:2.3em;
+	}
+	.bounce{
+		bottom:5%;
+		left:45%
+	}
+	.pa:after{
+    width:60%;
+		left:20%;
 		margin-bottom:1em;
-		margin-left:0.75em;
-    }
+		
+	}
+	.home_text_welcome{
+    font-size:20px;
+		left:30%;
+	  bottom:15%;
+	}
+.myLogo{
+		top:40px;
+		left:30px;
+		width:55px;
+		height:40px;
+  }
 }
 @media only screen and (min-width: 360px) and (max-width: 370px)
 {
-	.myLogo{
-		width:360px;
-		height:360px;
+		.home_text_large{
+		font-size:20px;
+		margin-bottom:2.3em;
+	}
+	.bounce{
+		bottom:5%;
+		left:45%
+	}
+	.pa:after{
+    width:60%;
+		left:20%;
 		margin-bottom:1em;
-		margin-left:0.5em;
-    }
+		
+	}
+	.home_text_welcome{
+    font-size:20px;
+		left:30%;
+	  bottom:15%;
+	}
+.myLogo{
+		top:40px;
+		left:30px;
+		width:55px;
+		height:40px;
+  }
 }
 @media only screen and (min-width: 350px) and (max-width: 359px)
-{
-	.myLogo{
-		width:360px;
-		height:360px;
+{ 	.home_text_large{
+		font-size:20px;
+		margin-bottom:2.3em;
+	}
+	.bounce{
+		bottom:5%;
+		left:45%
+	}
+	.pa:after{
+    width:60%;
+		left:20%;
 		margin-bottom:1em;
-		margin-left:0.25em;
-    }
+		
+	}
+	.home_text_welcome{
+    font-size:20px;
+		left:30%;
+	  bottom:15%;
+	}
+	.myLogo{
+		top:40px;
+		left:30px;
+		width:55px;
+		height:40px;
+  }
 }
 @media only screen and (min-width: 340px) and (max-width: 349px)
-{
-	.myLogo{
-		width:360px;
-		height:360px;
+{ 	.home_text_large{
+		font-size:20px;
+		margin-bottom:2.3em;
+	}
+	.bounce{
+		bottom:5%;
+		left:45%
+	}
+	.pa:after{
+    width:60%;
+		left:20%;
 		margin-bottom:1em;
-		margin-left:0.25em;
-    }
+		
+	}
+	.home_text_welcome{
+    font-size:20px;
+		left:25%;
+	  bottom:15%;
+	}
+	.myLogo{
+		top:40px;
+		left:30px;
+		width:55px;
+		height:40px;
+  }
 }
 @media only screen and (min-width: 320px) and (max-width: 339px)
 {
-	.myLogo{
-		width:360px;
-		height:360px;
+	.home_text_large{
+		font-size:20px;
+		margin-bottom:2.3em;
+	}
+	.bounce{
+		bottom:5%;
+		left:45%
+	}
+	.pa:after{
+    width:60%;
+		left:20%;
 		margin-bottom:1em;
-		margin-left:0.1em;
-    }
+		
+	}
+	.home_text_welcome{
+    font-size:20px;
+		left:25%;
+	  bottom:15%;
+	}
+	.myLogo{
+		top:40px;
+		left:30px;
+		width:55px;
+		height:40px;
+		
+  }
 }
 @media only screen and (min-width: 300px) and (max-width: 319px)
-{
-	.myLogo{
-		width:360px;
-		height:360px;
+{ 
+	.home_text_large{
+		font-size:20px;
+		margin-bottom:2.3em;
+	}
+	.bounce{
+		bottom:5%;
+		left:45%
+	}
+	.pa:after{
+    width:60%;
+		left:20%;
 		margin-bottom:1em;
-		margin-left:-1em;
-    }
+		
+	}
+	.home_text_welcome{
+    font-size:20px;
+		left:25%;
+	  bottom:15%;
+	}
+	.myLogo{
+		top:35px;
+		left:25px;
+		width:55px;
+		height:40px;
+  }
 }
 
 @media only screen and (min-width: 290px) and (max-width: 300px)
-{
-	.myLogo{
-		width:360px;
-		height:360px;
+{ .home_text_large{
+		font-size:14px;
+		margin-bottom:2.5em;
+		line-height: 10px;
+	}
+	.bounce{
+		bottom:5%;
+		left:45%
+	}
+	.pa:after{
+		left:15%;
 		margin-bottom:1em;
-		margin-right:2.5em;
+		
+	}
+	.home_text_welcome{
+    font-size:20px;
+		left:21.5%;
+	  bottom:15%;
+	}
+	.myLogo{
+			top:25px;
+			left:15px;
+			width:50px;
+			height:35px;
     }
 }
 

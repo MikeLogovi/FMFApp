@@ -3,7 +3,7 @@
    <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h2 class="text-danger h1-responsive font-weight-bold text-center my-5">WHAT PEOPLE THINK ABOUT US</h2>
+            <h2 class="section-head text-danger h1-responsive font-weight-bold text-center my-5">WHAT PEOPLE THINK ABOUT US</h2>
             
           </div>
         </div>
@@ -45,6 +45,18 @@
 <style scoped>
 #team{
   background-color:rgba(253,253,253,0.5);
+}
+.section-head:after{
+	position:absolute;
+	text-align: center;
+    content: "";
+    width: 10%;
+    height: 2px;
+    bottom:35px;
+    left:45%;
+    background: #FF3547;
+     
+
 }
 section h2.section-heading {
   font-size: 40px;

@@ -3,7 +3,7 @@
       <div class="container">
         <div class="row">
                     <div class="col-lg-12 text-center">
-                      <h2 class="text-uppercase text-danger h1-responsive font-weight-bold text-center my-5">Events</h2>
+                      <h2 class="section-head text-uppercase text-danger h1-responsive font-weight-bold text-center my-5">Events</h2>
                     </div>
        </div>
         <div v-if='PastHaveData'>
@@ -272,6 +272,18 @@
 </script>
 
 <style scoped>
+.section-head:after{
+	position:absolute;
+	text-align: center;
+    content: "";
+    width: 10%;
+    height: 2px;
+    bottom:35px;
+    left:45%;
+    background: #FF3547;
+     
+
+}
 .event-entry {
   padding: 1em;
   background: rgba(253,253,253,0.5);

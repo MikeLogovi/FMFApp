@@ -1,5 +1,5 @@
 <template>
-  <div v-if="items[0]" id="slider">
+  <div v-if="sliders[0]" id="slider">
     <b-carousel
       id="carousel1"
       style="text-shadow: 1px 1px 2px #333; margin-top:0"
@@ -15,7 +15,7 @@
       class="h1-responsive font-weight-bold text-center"
     >
 
-      <b-carousel-slide  v-for="(item,key) in items" :key="key" :img-src='item.source'  >
+      <b-carousel-slide  v-for="(item,key) in sliders" :key="key" :img-src='item.source'  >
         <h1>{{item.title}}</h1>
         <p>
          {{item.subtitle}}
@@ -27,14 +27,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
   export default {
        data(){
            return{
                slide: 0,
                sliding: null,
-               items:{
-
-               }
+              
            }
 	      },
 	   mounted(){
@@ -43,12 +42,15 @@
 				 this.loadSliders()
 				 
 			})
-	   },
+     },
+     computed:{
+       ...mapState([
+         'sliders'
+       ])
+     },
 	   methods:{
 		   loadSliders(){
-			   axios.get('/slider/vue').then(({data})=>{
-                    this.items=data
-			   })
+         this.$store.dispatch('loadSlidersVue')
 		   },
         onSlideStart(slide) {
         this.sliding = true

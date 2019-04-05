@@ -4,7 +4,7 @@
         <div class="row">
           <div class="col-lg-12 text-center">
             <h2 class="section-head text-danger h1-responsive font-weight-bold text-center my-5">OUR STORY</h2>
-            <a href=""
+            
           </div>
         </div>
         <div class="row">
@@ -28,7 +28,7 @@
               <li class="timeline-inverted" v-else>
                 <div class="timeline-image" style='background-color:#FF8100'>
                   <img class="rounded-circle img-fluid" style='width:100%;height:100%'  :src="item.source" alt="" v-if="item.source">
-                   <h4 class="circle_titleit" v-else-if="item.circle_title">{{item.circle_title}}</h4>
+                   <h4 style="color:black;" class="circle_titleit" v-else-if="item.circle_title">{{item.circle_title}}</h4>
                 </div>
                 <div class="timeline-panel">
                   <div class="timeline-heading">
@@ -42,7 +42,7 @@
               </li> 
               <li class="timeline-inverted" >
                 <div class="timeline-image " style='background-color:#E74C3C'>
-                  <h4 class="circle_titleit" v-if="website.about_quote">{{website.about_quote}}</h4>
+                  <h4 class="circle_titleit" style="color:white;" v-if="website.about_quote">{{website.about_quote}}</h4>
                 </div>
               </li>
             </ul>
@@ -89,6 +89,18 @@ import {mapState} from 'vuex'
 .section-head{
   font-family:'Roboto Slab',serif;
   font-weight:bold;
+}
+.section-head:after{
+	position:absolute;
+	text-align: center;
+    content: "";
+    width: 10%;
+    height: 2px;
+    bottom:35px;
+    left:45%;
+    background: #FF3547;
+     
+
 }
 section h2.section-heading {
   font-size: 40px;
@@ -169,7 +181,7 @@ section h2.section-heading {
   height: 80px;
   margin-left: 0;
   text-align: center;
-  color: white;
+  color: black;
   border: 7px solid #e9ecef;
   border-radius: 100%;
   background-color: #fed136;

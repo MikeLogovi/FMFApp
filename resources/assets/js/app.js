@@ -139,7 +139,7 @@ const routes=[
     {path: '/galleries',component:require('./components/frontend/Gallery2.vue')},
     {path: '/videos',component:require('./components/frontend/Video.vue')},
     {path: '/login',component:require('./components/frontend/Login.vue'),meta:{isLogin:true}},
-    {path:'/post/:id',component:require('./components/frontend/MyBlog.vue')},
+    {path:'/post/:id',props:true,component:require('./components/frontend/MyBlog.vue')},
      //Administration   
     {path: '/administration', component:require('./components/Administration.vue'),meta:{requiresAuth:true},
      children:[
@@ -199,13 +199,6 @@ router.beforeEach((to, from, next) => {
     }
   })
 
-
-
-
-
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
-Vue.component('side-nav', require('./components/SideNav.vue'));
-Vue.component('foot',require('./components/Foot.vue'));
 Vue.component('pagination', require('laravel-vue-pagination'));
 const app = new Vue({
     store:store,  

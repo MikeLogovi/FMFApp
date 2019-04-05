@@ -7,7 +7,7 @@
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
-         <a href="#" class="navbar-brand"><img style="width: 100px; height: 75px;" :src="website.logo"></a>
+         <a href="#" class="navbar-brand"><img style="width: 65px; height: 25px;" :src="website.logo"></a>
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto" >

@@ -4,7 +4,7 @@
        
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h2 class="text-uppercase text-danger h1-responsive font-weight-bold text-center my-5">Portfolio</h2>
+            <h2 class="section-head text-uppercase text-danger h1-responsive font-weight-bold text-center my-5">Portfolio</h2>
           </div>
         </div>
          <div class='row text-center'>
@@ -52,8 +52,8 @@
 	   },
 	   mounted(){
   
-			this.loadRandomImages()
       this.loadCategories()
+			this.loadRandomImages()
 			Echo.channel('my-channel').listen('ImageEvent',(e)=>{
 				 if(this.isRandomButton==true){
                this.loadRandomImages()
@@ -63,9 +63,10 @@
      },
      computed:{
        ...mapState([
-          'imageCategories',
-          'portfolio'
-       ])
+          'portfolio',
+          'imageCategories'
+       ]),
+      
      },
 	   methods:{
 		   loadRandomImages(){
@@ -85,6 +86,18 @@
    }
 </script>
 <style scoped>
+.section-head:after{
+	position:absolute;
+	text-align: center;
+    content: "";
+    width: 10%;
+    height: 2px;
+    bottom:35px;
+    left:45%;
+    background: #FF3547;
+     
+
+}
 .btnRow{
   margin:0 auto;
   margin-bottom:1.5em;

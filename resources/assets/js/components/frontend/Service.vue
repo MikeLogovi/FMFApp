@@ -5,8 +5,12 @@
         <div class="row">
           <div class="col-lg-12 text-center">
             <h2 class="section-head text-uppercase text-danger h1-responsive font-weight-bold text-center my-5">Services</h2>
-            <h3 class="section-subheading text-muted">FMF is a media company established in Nigeria in 2016 to mobilise resources and skill in media to promote African youth empowerment,inovation and large scale development in Africa.<br/>
+            
+          </div>
+           <div class="col-lg-12 text-center">
+          <h3 class="section-subheading text-muted">FMF is a media company established in Nigeria in 2016 to mobilise resources and skill in media to promote African youth empowerment,inovation and large scale development in Africa.<br/>
                  These are the core services we provide:</h3>
+            
           </div>
         </div>
         <div class="row text-center">
@@ -71,6 +75,18 @@ section {
 .section-head{
   font-family: 'Roboto Slab', serif;
   font-weight:bold;
+}
+.section-head:after{
+	position:absolute;
+	text-align: center;
+    content: "";
+    width: 10%;
+    height: 2px;
+    bottom:35px;
+    left:45%;
+    background: #FF3547;
+     
+
 }
 section h2.section-heading {
   font-size: 40px;

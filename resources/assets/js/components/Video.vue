@@ -50,7 +50,7 @@
                    <td><a :href="item.link" target="_blank" v-if="item.link">{{item.link}}</a></td>
                    <td>
                         <div class="col-xs-12">
-                           <a href="#" class="btn btn-success">See</a> 
+                            
                            <a href="#" @click.prevent="updateVideo(item)">
                                <i style="color:warning" class='fa fa-edit'></i>
                             </a>
