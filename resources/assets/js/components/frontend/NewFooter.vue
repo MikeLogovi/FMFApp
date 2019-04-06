@@ -11,7 +11,7 @@
 					<div class="copyright" v-if="socialites[0]">
 						<h3>Follow me</h3>
 						<ul class="icons">
-							<li  v-for="(socialite,key) in socialites" :key="key"><a target="_blank" :href="socialite.link" class="icon"><i :class='`fab fa-${socialite.social_media}`' ></i></a></li>
+							<li  v-for="(socialite,key) in socialites" :key="key"><a :href="socialite.link" class="icon" target="_blank"><i :class='`fab fa-${socialite.social_media}`' ></i></a></li>
 							
 						</ul>
 						&copy;<span v-if="website">{{website.name}}</span> Corporation-All right reserved.
@@ -46,6 +46,7 @@ export default{
 	        ])
 	    },
 	   methods:{
+		
 		  loadFooter(){
 			  this.$store.dispatch('loadFooter')
 			  
@@ -60,8 +61,7 @@ export default{
 </script>
 <style scoped>
 	ul.icons {
-			cursor: default;
-			list-style: none;
+			
 			padding-left: 0;
 		}
 
@@ -128,7 +128,7 @@ export default{
 			-ms-flex-align: center;
 			-ms-flex-pack: center;
 			position: relative;
-			z-index: -1;
+			z-index: 1;
 			background: #e74c3c;
 			padding: 2em;
 			height: 20em;
