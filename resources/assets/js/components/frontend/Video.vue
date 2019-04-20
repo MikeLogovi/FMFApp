@@ -72,7 +72,7 @@
                      <span class='title'>{{item.name}}</span><br/>
                      <p class='heading'>Added {{item.created_at|now}}</p>
                      <p class='subtitle'><span v-html="item.description"></span></p>
-                     <button   @click="show('modal'+item.id)" class='btn btn-success'>Wath video</button>
+                     <button   @click="show('modal'+item.id)" class='btn btn-success'>Watch video</button>
                  </div>
             </div>
              

@@ -54,7 +54,7 @@
                        icon:'far fa-calendar-alt'
                    },
                    {
-                       name:'Branding & Reblanding',
+                       name:'Branding & Advertising',
                        icon:'fas fa-shopping-cart'
                    },
                ]

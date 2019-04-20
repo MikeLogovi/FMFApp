@@ -99,7 +99,7 @@ import {mapState} from 'vuex'
 	font-weight:bold;
 	font-family:'Roboto Slab',serif;
 	left:45%;
-	bottom:20%;
+	bottom:12%;
 	color:yellow;
 }
 .pa:after{
@@ -410,7 +410,7 @@ import {mapState} from 'vuex'
 	.home_text_welcome{
     font-size:20px;
 		left:40%;
-	  bottom:15%;
+	  bottom:5%;
 	}
 }
 

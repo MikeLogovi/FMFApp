@@ -223,7 +223,7 @@
             })
       },
       loadWebsite(){
-           this.$store.dispatch('loadWebsite').then(()=>{
+           this.$store.dispatch('loadWebsiteParams').then(()=>{
            this.website=this.$store.state.website
            }) 
       },

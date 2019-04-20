@@ -1,5 +1,5 @@
 <template>
-<div class="wellcome-area peach-gradient">
+<div class="wellcome-area degrade">
     <div class="well-bg">
       <div class="test-overly"></div>
       <div class="container">
@@ -37,6 +37,14 @@
   background-repeat: no-repeat;
   background-attachment: fixed;
   
+}
+/*#F99100*/
+.degrade{
+  background:-webkit-linear-gradient(left,#F7F200,#F85700,#F40000);
+  background:-moz-linear-gradient(right,#F7F200,#F85700,#F40000);
+  background:-o-linear-gradient(right,#F7F200,#F85700,#F40000);
+  background:linear-gradient(to right,#F7F200,#F85700,#F40000);
+
 }
 .quote{
   font-family:'Raleway',serif;

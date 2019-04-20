@@ -17,7 +17,6 @@ Route::get('/', function () {
 
 
 
-/*Route::get('/home', 'HomeController@index')->name('home');*/
 Route::post('/sendmail','MailController@send');
 Route::get('/download_post_file/{id}','PostfiledownloadController@download');
 Route::get('/portfolio/random','PortfolioController@random');

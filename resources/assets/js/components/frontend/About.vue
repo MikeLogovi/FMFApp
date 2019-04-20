@@ -13,12 +13,12 @@
               <li v-if="key%2==0"   v-for="(item,key) in histories" :key="key">
                 <div class="timeline-image" style='background-color:#FF8100'>
                    <img class="rounded-circle img-fluid" style='width:100%;height:100%'  :src="item.source" alt="" v-if="item.source">
-                   <h4 class="circle_titleit" v-else-if="item.circle_title">{{item.circle_title}}</h4>
+                   <h2 class="circle_titleit ctitle" v-else-if="item.circle_title" style="color:black;">{{item.circle_title}}</h2>
                 </div>
                 <div class="timeline-panel">
                   <div class="timeline-heading">
                     <h4 v-if="item.period">{{item.period|yearDate}}</h4>
-                    <h4 class="subheading text-danger">{{item.title}}</h4>
+                    <h4 class="subhead text-danger ok">{{item.title}}</h4>
                   </div>
                   <div class="timeline-body history">
                     <p><strong>{{item.history}}</strong></p>
@@ -28,12 +28,12 @@
               <li class="timeline-inverted" v-else>
                 <div class="timeline-image" style='background-color:#FF8100'>
                   <img class="rounded-circle img-fluid" style='width:100%;height:100%'  :src="item.source" alt="" v-if="item.source">
-                   <h4 style="color:black;" class="circle_titleit" v-else-if="item.circle_title">{{item.circle_title}}</h4>
+                   <h2 style="color:black;" class="circle_titleit ctitle" v-else-if="item.circle_title" >{{item.circle_title}}</h2>
                 </div>
                 <div class="timeline-panel">
                   <div class="timeline-heading">
                     <h4>{{item.period|yearDate}}</h4>
-                    <h4 class="subheading text-danger">{{item.title}}</h4>
+                    <h4 class="ok subhead text-danger">{{item.title}}</h4>
                   </div>
                   <div class="timeline-body history" >
                     <p><strong>{{item.history}}</strong></p>
@@ -42,7 +42,7 @@
               </li> 
               <li class="timeline-inverted" >
                 <div class="timeline-image " style='background-color:#E74C3C'>
-                  <h4 class="circle_titleit" style="color:white;" v-if="website.about_quote">{{website.about_quote}}</h4>
+                  <h4 class="circle_titleit circle_quote" style="color:white;" v-if="website.about_quote">{{website.about_quote}}</h4>
                 </div>
               </li>
             </ul>
@@ -110,14 +110,14 @@ section h2.section-heading {
 .circle_titleit{
   font-family:'Roboto Slab',serif;
   font-weight:400;
+  
 }
-.subheading{
-  font-family:'Raleway',serif;
-  font-weight:500;
+.ctitle{
+  font-size:25px;
 }
 .history{
   font-family:'Raleway',serif;
-  
+  font-size:22px;
 }
 .timeline {
   position: relative;
@@ -155,7 +155,7 @@ section h2.section-heading {
   position: relative;
   float: right;
   width: 100%;
-  padding: 0 20px 0 100px;
+  padding: 10px 20px 0 100px;
   text-align: left;
 }
 
@@ -188,14 +188,21 @@ section h2.section-heading {
 }
 
 .timeline > li .timeline-image h4 {
-  font-size: 10px;
+  font-size:10px;
+  padding-right:6px;
+  padding-left:6px;
   line-height: 14px;
-  margin-top: 12px;
+  margin: 20% auto;
+}
+.timeline > li .timeline-image h2 {
+  font-size:14px;
+  line-height: 14px;
+  margin: 30% auto;
 }
 
 .timeline > li.timeline-inverted > .timeline-panel {
   float: right;
-  padding: 0 20px 0 100px;
+  padding:10px 20px 0 100px;
   text-align: left;
 }
 
@@ -220,10 +227,14 @@ section h2.section-heading {
 .timeline .timeline-heading h4 {
   margin-top: 0;
   color: inherit;
+  font-size:25px;
 }
 
-.timeline .timeline-heading h4.subheading {
-  text-transform: none;
+.timeline .timeline-heading h4.subhead {
+  font-size:15px;
+  font-family:'Raleway',serif;
+  font-weight:bold;
+  
 }
 
 .timeline .timeline-body > ul,
@@ -232,6 +243,9 @@ section h2.section-heading {
 }
 
 @media (min-width: 768px) {
+  .timeline .timeline-heading h4.subhead{
+    font-size:40px;
+  }
   .timeline:before {
     left: 50%;
   }
@@ -242,7 +256,7 @@ section h2.section-heading {
   .timeline > li .timeline-panel {
     float: left;
     width: 41%;
-    padding: 0 20px 20px 30px;
+    padding: 5px 20px 20px 30px;
     text-align: right;
   }
   .timeline > li .timeline-image {
@@ -255,20 +269,33 @@ section h2.section-heading {
     font-size: 13px;
     line-height: 18px;
     margin-top: 16px;
+    padding-right:10px;
+    padding-left:10px;
+    
+  }
+   .timeline > li .timeline-image h2 {
+    margin: 35% auto;
+    font-size: 16px;
+    line-height: 18px;
+    
   }
   .timeline > li.timeline-inverted > .timeline-panel {
     float: right;
-    padding: 0 30px 20px 20px;
+    padding: 5px 30px 20px 20px;
     text-align: left;
   }
+  
 }
 
 @media (min-width: 992px) {
+  .timeline .timeline-heading h4.subhead{
+    font-size:45px;
+  }
   .timeline > li {
     min-height: 150px;
   }
   .timeline > li .timeline-panel {
-    padding: 0 20px 20px;
+    padding: 25px 20px 20px;
   }
   .timeline > li .timeline-image {
     width: 150px;
@@ -276,21 +303,30 @@ section h2.section-heading {
     margin-left: -75px;
   }
   .timeline > li .timeline-image h4 {
-    font-size: 18px;
+    font-size: 14px;
     line-height: 26px;
-    margin-top: 30px;
+    margin:30% auto;
+  }
+  .timeline > li .timeline-image h2 {
+    font-size: 25px;
+    line-height: 26px;
+    margin:35% auto;
   }
   .timeline > li.timeline-inverted > .timeline-panel {
-    padding: 0 20px 20px;
+    padding: 25px 20px 20px;
   }
+  
 }
 
 @media (min-width: 1200px) {
+  .timeline .timeline-heading h4.subhead{
+    font-size:45px;
+  }
   .timeline > li {
     min-height: 170px;
   }
   .timeline > li .timeline-panel {
-    padding: 0 20px 20px 100px;
+    padding: 25px 20px 20px 100px;
   }
   .timeline > li .timeline-image {
     width: 170px;
@@ -299,9 +335,17 @@ section h2.section-heading {
   }
   .timeline > li .timeline-image h4 {
     margin-top: 40px;
+    font-size:16px;
+  }
+  .timeline > li .timeline-image h2 {
+    margin:35% auto;
   }
   .timeline > li.timeline-inverted > .timeline-panel {
-    padding: 0 100px 20px 20px;
+    padding: 25px 100px 20px 20px;
+  }
+  .ctitle{
+    font-size:25px;
   }
 }
+
 </style>
